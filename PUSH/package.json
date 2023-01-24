@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@pushprotocol/restapi": "^0.3.0",
+    "ethers": "^5.7.2"
+  }
+}
