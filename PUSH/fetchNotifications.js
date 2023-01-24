@@ -6,7 +6,7 @@ const fetchNotifs = async () => {
     env: "staging",
   });
 
-  console.log("Notifications: \n\n", notifications);
+  return notifications;
 };
 
-fetchNotifs();
+module.exports = fetchNotifs;
