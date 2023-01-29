@@ -1,6 +1,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const Document = require("./models/Document.model");
+const Canvas = require("./models/Canvas.model");
 
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URL, {
@@ -21,7 +22,7 @@ const io = require("socket.io")(process.env.PORT, {
 io.on("connection", (socket) => {
   socket.on("join-room", async (meetingId) => {
     socket.join(meetingId);
-
+    console.log(socket.id, "join-room");
     socket.on("get-document", async (documentId) => {
       const document = await findOrCreateDocument(documentId);
       socket.emit("load-document", document.data);
@@ -37,13 +38,20 @@ io.on("connection", (socket) => {
       });
     });
 
-    socket.on("canvas-data", (data) => {
+    socket.on("canvas-data", async (data) => {
+      console.log(socket.id, "canvas-data");
       socket.broadcast.to(meetingId).emit("canvas-data", data);
+      await Canvas.findOneAndUpdate(
+        { _id: meetingId },
+        { $set: { data: data } },
+        { upsert: true, new: true }
+      );
     });
 
-    socket.on("drawing", (data) => {
-      console.log("reached here", data);
-      socket.broadcast.to(meetingId).emit("drawing", data);
+    socket.on("get-canvas", async (meetingId) => {
+      console.log(socket.id, "get-canvas")
+      const canvas = await findOrCreateCanvas(meetingId);
+      socket.emit("load-canvas", canvas.data);
     });
   });
 });
@@ -54,4 +62,11 @@ async function findOrCreateDocument(id) {
   const document = await Document.findById(id);
   if (document) return document;
   return await Document.create({ _id: id, data: "" });
+}
+
+async function findOrCreateCanvas(id) {
+  if (id == null) return;
+  const canvas = await Canvas.findById(id);
+  if (canvas) return canvas;
+  return await Canvas.create({ _id: id, data: "" });
 }
