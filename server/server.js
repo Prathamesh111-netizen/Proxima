@@ -36,23 +36,20 @@ app.use(
 
 app.post("/api/exe", async (req, res) => {
   try {
-    console.log(req.body);
     const { code } = req.body;
-
-    const baseurl = "https://api.jdoodle.com/v1/execute";
     const body = {
-      clientId: "599d4353e2565bb1be9a35b4772a9220",
-      clientSecret:
-        "c585c2d30e94bf146a47a21a3dae0909a92f6fccbf555c75808b04684f891b7",
+      clientId: process.env.JDOODLE_CLIENT_ID ,
+      clientSecret: process.env.JDOODLE_CLIENT_SECRET,
       script: code,
       language: "cpp17",
       stdin: "1 2",
       versionIndex: "0",
     };
 
-    axios.post(baseurl, body).then(response=>{
+    axios.post(process.env.JDOODLE_BASEURL, body).then(response=>{
       res.send(response.data)
     })
+    
   } catch (error) {
     console.log("error", error);
   }

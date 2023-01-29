@@ -90,7 +90,7 @@ export default function TextEditor(props) {
     const body = {
       code: code
     }
-    await axios.post(`http://localhost:3001/api/exe`, body).then(res=>console.log(res));
+    await axios.post(import.meta.env.VITE_COMPILER_PATH, body).then(res=>console.log(res));
   };
 
   return (
