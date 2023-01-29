@@ -4,9 +4,11 @@ import LoadingScreen from "../components/loader";
 import Texteditor from "../components/Texteditor";
 import { getHuddleClient } from "@huddle01/huddle01-client";
 import { useHuddleStore } from "@huddle01/huddle01-client/store";
+
 import MeVideoElem from "../components/MeVideoElem";
 import PeerVideoAudioElem from "../components/PeerVideoAudioElem";
 import ScreenRecorder from "../components/screenRecorder";
+import Container from '../components/container/Container';
 
 const Meeting = () => {
   const { id: meetingId } = useParams();
@@ -29,12 +31,12 @@ const Meeting = () => {
 
   return (
     <React.Fragment>
-      {loading && <LoadingScreen />}
+      {/* {loading && <LoadingScreen />} */}
       {!loading && (
         <React.Fragment>
           <Texteditor documentId="123" meetingId={meetingId} />
           {/* <button onClick={JoinRoom}>Join Room</button> */}
-          <button onClick={() => huddleClient.enableWebcam()}>
+          {/* <button onClick={() => huddleClient.enableWebcam()}>
             Enable Webcam
           </button>
           <button onClick={() => huddleClient.disableWebcam()}>
@@ -46,7 +48,8 @@ const Meeting = () => {
               <PeerVideoAudioElem key={`peerId-${key}`} peerIdAtIndex={key} />
             ))}
           </div>
-          <ScreenRecorder />
+          <ScreenRecorder /> */}
+          <Container documentId="123" meetingId={meetingId} />
         </React.Fragment>
       )}
     </React.Fragment>
