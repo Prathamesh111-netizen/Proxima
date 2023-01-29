@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
+import Dashboard from "./pages/Dashboard";
 import JoinMeeting from "./pages/JoinMeeting";
 import CreateMeeting from "./pages/CreateMeeting";
 import Meeting from "./pages/Meeting";
@@ -18,8 +19,13 @@ const router = createBrowserRouter(
     <Route path="/">
       <Route path="join" element={<JoinMeeting />} />
       <Route path="create" element={<CreateMeeting />} />
-      <Route path="meeting/:id" element={<Meeting />} errorElement={<LandingPage />} />
+      <Route
+        path="meeting/:id"
+        element={<Meeting />}
+        errorElement={<LandingPage />}
+      />
       <Route path="my-meetings" element={<CreateMeeting />} />
+      <Route path="dashboard" element={<Dashboard />} />
       <Route path="" element={<LandingPage />} />
     </Route>
   )
