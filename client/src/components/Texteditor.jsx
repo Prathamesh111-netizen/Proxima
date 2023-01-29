@@ -2,13 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { io } from "socket.io-client";
-
+import axios from "axios";
 
 export default function TextEditor(props) {
-  const { meetingId } = props
+  const { meetingId } = props;
   const [socket, setSocket] = useState();
   const [quill, setQuill] = useState();
-
   useEffect(() => {
     const s = io(import.meta.env.VITE_BACKEND_SERVER);
     setSocket(s);
@@ -25,7 +24,6 @@ export default function TextEditor(props) {
       quill.setContents(document);
       quill.enable();
     });
-
   }, [socket, quill, meetingId]);
 
   useEffect(() => {
@@ -76,19 +74,31 @@ export default function TextEditor(props) {
     wrapper.append(editor);
     const q = new Quill(editor, {
       modules: {
-        syntax: true,              // Include syntax module
-        toolbar: [['code-block']]  // Include button in toolbar
+        syntax: true, // Include syntax module
+        toolbar: [["code-block"]], // Include button in toolbar
       },
-      theme: 'snow'
+      theme: "snow",
     });
     q.disable();
     q.setText("Loading...");
     setQuill(q);
   }, []);
 
+  const compileCode = async () => {
+    const code = quill.getText(0, quill.getLength());
+    console.log(code);
+    const body = {
+      code: code
+    }
+    await axios.post(`http://localhost:3001/api/exe`, body).then(res=>console.log(res));
+  };
+
   return (
     <>
-        <div className="container" ref={wrapperRef}/> 
+      <div className="container" ref={wrapperRef} />
+      <button className="btn btn-secondary" onClick={compileCode}>
+        Compile
+      </button>
     </>
   );
 }

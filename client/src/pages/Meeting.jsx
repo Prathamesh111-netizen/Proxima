@@ -29,12 +29,14 @@ const Meeting = () => {
     }, 3000);
   }, []);
 
+
   return (
     <React.Fragment>
       {/* {loading && <LoadingScreen />} */}
       {!loading && (
         <React.Fragment>
           <Texteditor documentId="123" meetingId={meetingId} />
+          
           {/* <button onClick={() => huddleClient.enableWebcam()}>
             Enable Webcam
           </button>

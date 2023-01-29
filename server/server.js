@@ -2,6 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const Document = require("./models/Document.model");
 const Canvas = require("./models/Canvas.model");
+const axios = require("axios");
 
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URL, {
@@ -16,7 +17,49 @@ const io = require("socket.io")(process.env.PORT, {
     transports: ["websocket", "polling"],
     methods: ["GET", "POST"],
   },
-  allowEIO3: true,
+});
+
+const express = require("express");
+const cors = require("cors");
+const app = express();
+
+app.use(express.json({ limit: "5mb" }));
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.FRONTEND_SERVER,
+    transports: ["websocket", "polling"],
+    methods: ["GET", "POST"],
+    allowEIO3: true,
+  })
+);
+
+app.post("/api/exe", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { code } = req.body;
+
+    const baseurl = "https://api.jdoodle.com/v1/execute";
+    const body = {
+      clientId: "599d4353e2565bb1be9a35b4772a9220",
+      clientSecret:
+        "c585c2d30e94bf146a47a21a3dae0909a92f6fccbf555c75808b04684f891b7",
+      script: code,
+      language: "cpp17",
+      stdin: "1 2",
+      versionIndex: "0",
+    };
+
+    axios.post(baseurl, body).then(response=>{
+      res.send(response.data)
+    })
+  } catch (error) {
+    console.log("error", error);
+  }
+});
+
+app.listen(3001, () => {
+  console.log(`listening on *:3001`);
 });
 
 io.on("connection", (socket) => {
@@ -49,7 +92,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("get-canvas", async (meetingId) => {
-      console.log(socket.id, "get-canvas")
+      console.log(socket.id, "get-canvas");
       const canvas = await findOrCreateCanvas(meetingId);
       socket.emit("load-canvas", canvas.data);
     });

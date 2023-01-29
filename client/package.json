@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@huddle01/huddle01-client": "^0.0.10",
+    "axios": "^1.2.6",
     "daisyui": "^2.49.0",
     "ethers": "^5.7.2",
     "localforage": "^1.10.0",
