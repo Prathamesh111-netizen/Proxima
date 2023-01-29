@@ -3,17 +3,15 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { io } from "socket.io-client";
 
-const SAVE_INTERVAL_MS = 600;
 
 export default function TextEditor(props) {
-  const { meetingId : documentId } = props
+  const { meetingId } = props
   const [socket, setSocket] = useState();
   const [quill, setQuill] = useState();
 
   useEffect(() => {
-    const s = io("http://localhost:3000");
+    const s = io(import.meta.env.VITE_BACKEND_SERVER);
     setSocket(s);
-
     return () => {
       s.disconnect();
     };
@@ -21,14 +19,14 @@ export default function TextEditor(props) {
 
   useEffect(() => {
     if (socket == null || quill == null) return;
-
+    socket.emit("join-room", meetingId);
+    socket.emit("get-document", meetingId);
     socket.once("load-document", (document) => {
       quill.setContents(document);
       quill.enable();
     });
 
-    socket.emit("get-document", documentId);
-  }, [socket, quill, documentId]);
+  }, [socket, quill, meetingId]);
 
   useEffect(() => {
     if (socket == null || quill == null) return;
@@ -36,7 +34,7 @@ export default function TextEditor(props) {
     // change on onclick event
     const interval = setInterval(() => {
       socket.emit("save-document", quill.getContents());
-    }, SAVE_INTERVAL_MS);
+    }, import.meta.env.VITE_SAVE_INTERVAL_MS);
 
     return () => {
       clearInterval(interval);

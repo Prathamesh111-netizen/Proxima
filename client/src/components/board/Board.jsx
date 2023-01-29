@@ -13,7 +13,7 @@ class Board extends React.Component {
 
     constructor(props) {
         super(props);
-
+        this.socket.emit("join-room", this.props.meetingId);
         this.socket.on("canvas-data", function(data){
 
             var root = this;
@@ -37,6 +37,7 @@ class Board extends React.Component {
     componentDidMount() {
         this.drawOnCanvas();
     }
+    
 
     componentWillReceiveProps(newProps) {
         this.ctx.strokeStyle = newProps.color;
