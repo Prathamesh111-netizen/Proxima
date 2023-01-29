@@ -35,7 +35,6 @@ const Meeting = () => {
       {!loading && (
         <React.Fragment>
           <Texteditor documentId="123" meetingId={meetingId} />
-          {/* <button onClick={JoinRoom}>Join Room</button> */}
           {/* <button onClick={() => huddleClient.enableWebcam()}>
             Enable Webcam
           </button>
