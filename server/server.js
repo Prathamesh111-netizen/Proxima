@@ -1,19 +1,20 @@
+require("dotenv").config();
 const mongoose = require("mongoose")
 const Document = require("./models/Document.model")
 
-mongoose.connect("mongodb+srv://prathamesh:prathamesh@cluster0.vr7zqvr.mongodb.net/?retryWrites=true&w=majority", {
+
+mongoose.set("strictQuery", false);
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
 
-const io = require("socket.io")(3000, {
+const io = require("socket.io")(process.env.PORT, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_SERVER ,
     methods: ["GET", "POST"],
   },
 })
-
-const defaultValue = ""
 
 io.on("connection", socket => {
   socket.on("get-document", async documentId => {
@@ -38,5 +39,5 @@ async function findOrCreateDocument(id) {
 
   const document = await Document.findById(id)
   if (document) return document
-  return await Document.create({ _id: id, data: defaultValue })
+  return await Document.create({ _id: id, data: "" })
 }
