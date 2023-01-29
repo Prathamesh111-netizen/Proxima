@@ -6,6 +6,7 @@ import { getHuddleClient } from "@huddle01/huddle01-client";
 import { useHuddleStore } from "@huddle01/huddle01-client/store";
 import MeVideoElem from "../components/MeVideoElem";
 import PeerVideoAudioElem from "../components/PeerVideoAudioElem";
+import ScreenRecorder from "../components/screenRecorder";
 
 const Meeting = () => {
   const { id: meetingId } = useParams();
@@ -45,6 +46,7 @@ const Meeting = () => {
               <PeerVideoAudioElem key={`peerId-${key}`} peerIdAtIndex={key} />
             ))}
           </div>
+          <ScreenRecorder />
         </React.Fragment>
       )}
     </React.Fragment>
