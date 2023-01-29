@@ -5,8 +5,7 @@ import {v4 as uuidv4} from "uuid"
 export default function CreateMeeting() {
   const navigate = useNavigate();
   const JoinMeeting = () => {
-    navigate(`/meeting/1234`);
-    // navigate(`/meeting/${uuidv4()}`);
+    navigate(`/meeting/${uuidv4()}`);
   };
 
   return (

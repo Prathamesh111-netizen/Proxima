@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import LoadingScreen from "../components/loader";
 import Texteditor from "../components/Texteditor";
@@ -16,62 +16,38 @@ const Meeting = () => {
 
   useEffect(() => {
     setTimeout(async () => {
-      console.log(import.meta.env.VITE_HUDDLE_KEY);
-      try {
-        await huddleClient.join("dev", {
-          address: "0x15900c698ee356E6976e5645394F027F0704c8Eb",
-          wallet: "",
-          ens: "axit.eth",
-        });
-
-        console.log("joined");
-      } catch (error) {
-        console.log({ error });
-      }
-      setLoading(false);
-    }, 3000);
-  }, []);
-
-  const [defaultAccount, setdefaultAccount] = useState(null);
-
-  useEffect(() => {
-    const result = JSON.parse(localStorage.getItem("defaultAccount"));
-    if (result) {
-      setdefaultAccount(result);
-    }
-  }, []);
-  console.log(roomState);
-
-  const JoinRoom = async () => {
-    try {
-      await huddleClient.join("dev", {
+      await huddleClient.join(meetingId, {
         address: "0x15900c698ee356E6976e5645394F027F0704c8Eb",
         wallet: "",
         ens: "axit.eth",
       });
-
-      console.log("joined");
-    } catch (error) {
-      console.log({ error });
-    }
-  };
+      console.log("ROOM-STATE", roomState)
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   return (
-    <>
+    <React.Fragment>
       {loading && <LoadingScreen />}
-      {!loading && <Texteditor documentId="123" meetingId={meetingId} />}
-      <button onClick={JoinRoom}>Join Room</button>
-      <button onClick={() => huddleClient.enableWebcam()}>Enable Webcam</button>
-      <button onClick={() => huddleClient.disableWebcam()}>
-        Disable Webcam
-      </button>
-      <MeVideoElem />
-      <div className="peers-grid">
-        {peersKeys.map((key) => (
-          <PeerVideoAudioElem key={`peerId-${key}`} peerIdAtIndex={key} />
-        ))}
-      </div>
-    </>
+      {!loading && (
+        <React.Fragment>
+          <Texteditor documentId="123" meetingId={meetingId} />
+          {/* <button onClick={JoinRoom}>Join Room</button> */}
+          <button onClick={() => huddleClient.enableWebcam()}>
+            Enable Webcam
+          </button>
+          <button onClick={() => huddleClient.disableWebcam()}>
+            Disable Webcam
+          </button>
+          <MeVideoElem />
+          <div className="peers-grid">
+            {peersKeys.map((key) => (
+              <PeerVideoAudioElem key={`peerId-${key}`} peerIdAtIndex={key} />
+            ))}
+          </div>
+        </React.Fragment>
+      )}
+    </React.Fragment>
   );
 };
 
