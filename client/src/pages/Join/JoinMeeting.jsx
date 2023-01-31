@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
+// import getRoomCode from "./getRoomCode.js";
 
 export default function CreateMeeting() {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ export default function CreateMeeting() {
           <input
             type="text"
             placeholder="Enter Meeting ID"
+            defaultValue={JoinMeeting}
             className="border-2 border-purple-600 p-2 rounded mt-5"
           />
           <button

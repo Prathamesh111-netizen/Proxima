@@ -11,7 +11,6 @@ import feature4 from "../images/feature-icon-04.svg";
 import feature5 from "../images/feature-icon-05.svg";
 import feature6 from "../images/feature-icon-06.svg";
 // import { useAuth } from "../context/AuthContext";
-
 const LandingPage = () => {
   //   const { user } = useAuth();
 
