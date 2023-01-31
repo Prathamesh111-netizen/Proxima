@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const [isLoggedin, setIsLoggedin] = useState(false);
   return (
-    <div className="w-11/12 mr-10 ml-10 mt-5 rounded-xl navbar bg-purple-600">
+    <div className="w-11/12 md:mr-10 md:ml-10 ml-5 mt-5 rounded-xl navbar bg-purple-600">
       <div className="flex-1">
         <a className="btn btn-ghost normal-case text-xl">deCollab</a>
       </div>
