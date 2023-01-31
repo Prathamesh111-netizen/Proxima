@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- https://github.com/mikecao/umami -->
+
+        <script
+            async
+            defer
+            data-website-id="28098c62-a100-44a1-8f03-234b3f0a8194"
+            src="https://stats.mirotalk.org/umami.js"
+        ></script>
+
+        <!-- Title and Icon -->
+
+        <title>MiroTalk SFU - Room Video Calls, Messaging and Screen Sharing.</title>
+        <link rel="shortcut icon" href="../images/logo.svg" />
+        <link rel="apple-touch-icon" href="../images/logo.svg" />
+
+        <!-- Meta Information -->
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="MiroTalk SFU powered by WebRTC and mediasoup, Real-time Simple Secure Fast video calls, messaging and screen sharing capabilities in the browser."
+        />
+        <meta
+            name="keywords"
+            content="webrtc, miro, mediasoup, mediasoup-client, self hosted, voip, sip, real-time communications, chat, messaging, meet, webrtc stun, webrtc turn, webrtc p2p, webrtc sfu, video meeting, video chat, video conference, multi video chat, multi video conference, peer to peer, p2p, sfu, rtc, alternative to, zoom, microsoft teams, google meet, jitsi, meeting"
+        />
+
+        <!-- https://ogp.me -->
+
+        <meta property="og:type" content="app-webrtc" />
+        <meta property="og:site_name" content="MiroTalk SFU" />
+        <meta property="og:title" content="Click the link to make a call." />
+        <meta
+            property="og:description"
+            content="MiroTalk SFU calling provides real-time video calls, messaging and screen sharing."
+        />
+        <meta property="og:image" content="https://sfu.mirotalk.com/images/mirotalksfu.png" />
+
+        <!-- StyleSheet -->
+
+        <link rel="stylesheet" href="../css/Room.css" />
+        <link rel="stylesheet" href="../css/VideoGrid.css" />
+
+        <!-- https://cdnjs.com/libraries/font-awesome -->
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+
+        <!-- https://animate.style 4 using for swal fadeIn-Out -->
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+        <!-- Bootstrap 5 -->
+
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+        />
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"
+        ></script>
+
+        <!-- Js scripts https://cdn.jsdelivr.net -->
+
+        <script defer src="/socket.io/socket.io.js"></script>
+        <script defer src="../sfu/MediasoupClient.js"></script>
+        <script defer src="../js/LocalStorage.js"></script>
+        <script defer src="../js/Rules.js"></script>
+        <script defer src="../js/Room.js"></script>
+        <script defer src="../js/RoomClient.js"></script>
+        <script defer src="../js/SpeechRec.js"></script>
+        <script defer src="../js/VideoGrid.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/detectrtc@1.4.1/DetectRTC.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/fabric@5.3.0-browser/dist/fabric.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+        <script defer src="https://unpkg.com/@popperjs/core@2"></script>
+        <script defer src="https://unpkg.com/tippy.js@6"></script>
+    </head>
+    <body onload="initClient()">
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+
+        <div id="loadingDiv" class="center pulsate">
+            <h1>Loading</h1>
+            <img src="../images/loader.gif" />
+            <pre>
+Please allow the camera or microphone
+access to use this app.
+            </pre>
+        </div>
+
+        <section>
+            <div id="initUser" class="init-user hidden">
+                <!-- <p>Please allow the camera & microphone access to use this app.</p> -->
+                <video
+                    id="initVideo"
+                    playsinline="true"
+                    autoplay=""
+                    poster="../images/loader.gif"
+                    class="mirror"
+                    style="object-fit: var(--videoObjFit)"
+                ></video>
+                <button id="initAudioButton" class="fas fa-microphone" onclick="handleAudio(event)"></button>
+                <button id="initVideoButton" class="fas fa-video" onclick="handleVideo(event)"></button>
+                <button id="initAudioVideoButton" class="fas fa-eye" onclick="handleAudioVideo(event)"></button>
+                <select id="initVideoSelect" class="form-select text-light bg-dark"></select>
+                <select id="initMicrophoneSelect" class="form-select text-light bg-dark"></select>
+                <select id="initSpeakerSelect" class="form-select text-light bg-dark"></select>
+            </div>
+        </section>
+
+        <div id="control" class="fadein">
+            <button id="shareButton" class="hidden"><i class="fas fa-share-alt"></i></button>
+            <button id="startAudioButton" class="hidden"><i class="fas fa-microphone-slash"></i></button>
+            <button id="stopAudioButton" class="hidden"><i class="fas fa-microphone"></i></button>
+            <button id="startVideoButton" class="hidden"><i class="fas fa-video-slash"></i></button>
+            <button id="stopVideoButton" class="hidden"><i class="fas fa-video"></i></button>
+            <button id="startScreenButton" class="hidden"><i class="fas fa-desktop"></i></button>
+            <button id="stopScreenButton" class="hidden"><i class="fas fa-stop-circle"></i></button>
+            <button id="swapCameraButton" class="hidden"><i class="fas fa-camera-rotate"></i></button>
+            <button id="chatButton" class="hidden"><i class="fas fa-comments"></i></button>
+            <button id="participantsButton" class="hidden"><i class="fas fa-users"></i></button>
+            <button id="whiteboardButton" class="hidden"><i class="fas fa-chalkboard-teacher"></i></button>
+            <button id="settingsButton" class="hidden"><i class="fas fa-cogs"></i></button>
+            <button id="aboutButton" class="hidden"><i class="fas fa-question"></i></button>
+            <button id="exitButton" class="hidden"><i class="fas fa-right-from-bracket"></i></button>
+        </div>
+
+        <section id="mySettings" class="fadein center hidden">
+            <header id="mySettingsHeader">
+                <button id="mySettingsCloseBtn" class="fas fa-times"></button>
+            </header>
+            <main>
+                <br />
+
+                <div class="tab">
+                    <button id="tabDevicesBtn" class="fas fa-cog tablinks"></button>
+                    <button id="tabRoomBtn" class="fas fa-home tablinks"></button>
+                    <button id="tabRecordingBtn" class="fas fa-record-vinyl tablinks"></button>
+                    <button id="tabVideoShareBtn" class="fab fa-youtube tablinks"></button>
+                    <button id="tabAspectBtn" class="fas fa-screwdriver-wrench tablinks"></button>
+                    <button id="tabStylingBtn" class="fas fa-palette tablinks"></button>
+                    <button id="tabLanguagesBtn" class="fas fa-globe tablinks"></button>
+                </div>
+
+                <div id="tabDevices" class="tabcontent">
+                    <br />
+                    <i class="fas fa-video"></i>
+                    <p>Video Source:</p>
+                    <select id="videoSelect" class="form-select text-light bg-dark"></select>
+                    <br />
+                    <i class="fas fa-palette"></i>
+                    <p>Video Quality:</p>
+                    <select id="videoQuality" class="form-select text-light bg-dark">
+                        <option value="default">Default</option>
+                        <option value="qvga">QVGA</option>
+                        <option value="vga">VGA</option>
+                        <option value="hd">HD</option>
+                        <option value="fhd">FULL HD</option>
+                        <option value="2k">2k</option>
+                        <option value="4k">4K</option>
+                    </select>
+                    <br />
+                    <i class="fas fa-microphone"></i>
+                    <p>Microphone:</p>
+                    <select id="microphoneSelect" class="form-select text-light bg-dark"></select>
+                    <br />
+                    <i class="fas fa-headphones"></i>
+                    <p>Speaker:</p>
+                    <select id="speakerSelect" class="form-select text-light bg-dark"></select>
+                    <br />
+                </div>
+
+                <div id="tabRoom" class="tabcontent">
+                    <br />
+                    <button id="fullScreenButton" class="hidden">
+                        <i class="fas fa-expand-alt"></i>
+                        <p>Full screen mode</p>
+                    </button>
+                    <br />
+                    <button id="raiseHandButton" class="hidden">
+                        <i class="fas fa-hand-paper"></i>
+                        <p>Raise hand</p>
+                    </button>
+                    <button id="lowerHandButton" class="hidden">
+                        <i class="fas fa-hand-paper"></i>
+                        <p>Lower hand</p>
+                    </button>
+                    <br />
+                    <button id="fileShareButton" class="hidden">
+                        <i class="fas fa-folder-open"></i>
+                        <p>File sharing</p>
+                    </button>
+                    <br />
+                    <button id="lockRoomButton" class="hidden">
+                        <i class="fas fa-lock-open"></i>
+                        <p>Lock room</p>
+                    </button>
+                    <button id="unlockRoomButton" class="hidden">
+                        <i class="fas fa-lock"></i>
+                        <p>Unlock room</p>
+                    </button>
+                    <div id="lobbyButton" class="hidden">
+                        <div class="form-check form-switch form-switch-md">
+                            <input class="form-check-input" type="checkbox" id="switchLobby" />
+                            <label class="form-check-label" style="color: #fff" for="switchLobby">&nbsp;Lobby</label>
+                        </div>
+                    </div>
+                    <div id="soundsButton">
+                        <div class="form-check form-switch form-switch-md">
+                            <input class="form-check-input" type="checkbox" id="switchSounds" checked />
+                            <label class="form-check-label" style="color: #fff" for="switchSounds">&nbsp;Sounds</label>
+                        </div>
+                    </div>
+                    <button id="sessionTimeButton">
+                        <i class="fas fa-clock"></i>
+                        <p id="sessionTime"></p>
+                    </button>
+                </div>
+
+                <div id="tabRecording" class="tabcontent">
+                    <br />
+                    <button id="startRecButton" class="hidden">
+                        <i class="fas fa-record-vinyl"></i>
+                        <p>Start recording</p>
+                    </button>
+                    <button id="stopRecButton" class="hidden">
+                        <i class="fas fa-stop-circle"></i>
+                        <p>Stop recording</p>
+                    </button>
+                    <br />
+                    <button id="pauseRecButton" class="hidden">
+                        <i class="far fa-pause-circle"></i>
+                        <p>Pause recording</p>
+                    </button>
+                    <button id="resumeRecButton" class="hidden">
+                        <i class="far fa-play-circle"></i>
+                        <p>Resume recording</p>
+                    </button>
+                    <br />
+                    <p id="recordingStatus">🔴 REC 0s</p>
+                    <br />
+                </div>
+
+                <div id="tabVideoShare" class="tabcontent">
+                    <br />
+                    <button id="videoShareButton">
+                        <i class="fab fa-youtube"></i>
+                        <p>Share a Video or Audio</p>
+                    </button>
+                    <br />
+                    <button id="videoCloseBtn" class="hidden">
+                        <i class="fas fa-times"></i>
+                        <p>Close Video or Audio</p>
+                    </button>
+                    <br />
+                </div>
+
+                <div id="tabAspect" class="tabcontent">
+                    <br />
+                    <p>Aspect ratio:</p>
+                    <br />
+                    <select id="BtnsAspectRatio" class="form-select text-light bg-dark">
+                        <option value="0">default</option>
+                        <option value="1">4:3</option>
+                        <option value="2">16:9</option>
+                        <option value="3">1:1</option>
+                        <option value="4">1:2</option>
+                    </select>
+                    <br />
+                    <p>Video Object fit:</p>
+                    <br />
+                    <select id="BtnVideoObjectFit" class="form-select text-light bg-dark">
+                        <option value="fill">fill</option>
+                        <option value="contain">contain</option>
+                        <option value="cover">cover</option>
+                        <option value="scale-down">scale-down</option>
+                        <option value="none">none</option>
+                    </select>
+                    <br />
+                    <p>Video Controls:</p>
+                    <br />
+                    <select id="BtnVideoControls" class="form-select text-light bg-dark">
+                        <option value="Off">Off</option>
+                        <option value="On">On</option>
+                    </select>
+                    <br />
+                </div>
+
+                <div id="tabStyling" class="tabcontent">
+                    <br />
+                    <p>Theme:</p>
+                    <br />
+                    <select id="selectTheme" class="form-select text-light bg-dark">
+                        <option value="dark">⚫ &nbsp;Dark</option>
+                        <option value="grey">⚪ &nbsp;Grey</option>
+                    </select>
+                    <br />
+                    <p>Buttons bar:</p>
+                    <br />
+                    <select id="BtnsBarPosition" class="form-select text-light bg-dark">
+                        <option value="vertical">Vertical</option>
+                        <option value="horizontal">Horizontal</option>
+                    </select>
+                    <br />
+                    <div id="pinUnpinGridDiv" class="hidden">
+                        <p>Pin grid:</p>
+                        <br />
+                        <select id="pinVideoPosition" class="form-select text-light bg-dark">
+                            <option value="vertical">Vertical</option>
+                            <option value="horizontal">Horizontal</option>
+                            <option value="top">Top</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="tabLanguages" class="tabcontent">
+                    <br />
+                    <p>Language:</p>
+                    <br />
+                    <div id="google_translate_element"></div>
+                </div>
+            </main>
+        </section>
+
+        <div id="videoPinMediaContainer"></div>
+        <div id="videoMediaContainer">
+            <!-- <div class="Camera"></div> -->
+        </div>
+        <div id="localAudio"></div>
+        <div id="remoteAudios"></div>
+
+        <div id="sendFileDiv" class="fadein center">
+            <img id="imgShareSend" src="../images/share.png" alt="mirotalksfu-share-send" class="center-img" /><br />
+            <div id="sendFileInfo"></div>
+            <div id="sendFilePercentage"></div>
+            <progress id="sendProgress" max="0" value="0"></progress>
+            <button id="sendAbortBtn"><i class="fas fa-stop-circle"></i>&nbsp; Abort</button>
+        </div>
+
+        <div id="receiveFileDiv" class="fadein center">
+            <img
+                id="imgShareReceive"
+                src="../images/share.png"
+                alt="mirotalksfu-share-receive"
+                class="center-img"
+            /><br />
+            <div id="receiveFileInfo"></div>
+            <div id="receiveFilePercentage"></div>
+            <progress id="receiveProgress" max="0" value="0"></progress>
+            <button id="receiveHideBtn"><i class="fas fa-eye-slash"></i>&nbsp; Hide</button>
+        </div>
+
+        <section id="participants" class="fadein center hidden">
+            <header id="participantsHeader" class="participants-header">
+                <div class="participants-header-options">
+                    <button id="participantsCloseBtn" class="fas fa-times"></button>
+                </div>
+                <div id="participantsTitle" class="participants-header-title"></div>
+            </header>
+            <main>
+                <div id="roomParticipants"></div>
+            </main>
+        </section>
+
+        <section id="whiteboard" class="fadein center hidden">
+            <header id="whiteboardHeader" class="whiteboard-header">
+                <div id="whiteboardTitle" class="whiteboard-header-title">
+                    <button id="whiteboardCloseBtn" class="fas fa-times"></button>
+                </div>
+                <div class="whiteboard-header-options">
+                    <button id="whiteboardGhostButton" class="fas fa-circle-half-stroke"></button>
+                    <input id="wbBackgroundColorEl" class="whiteboardColorPicker" type="color" value="#000000" />
+                    <input id="wbDrawingColorEl" class="whiteboardColorPicker" type="color" value="#FFFFFF" />
+                    <button id="whiteboardPencilBtn" class="fas fa-pencil-alt"></button>
+                    <button id="whiteboardObjectBtn" class="fas fa-mouse-pointer"></button>
+                    <button id="whiteboardUndoBtn" class="fas fa-undo"></button>
+                    <button id="whiteboardRedoBtn" class="fas fa-redo"></button>
+                    <button id="whiteboardImgFileBtn" class="far fa-image"></button>
+                    <button id="whiteboardImgUrlBtn" class="fas fa-link"></button>
+                    <button id="whiteboardTextBtn" class="fas fa-spell-check"></button>
+                    <button id="whiteboardLineBtn" class="fas fa-slash"></button>
+                    <button id="whiteboardRectBtn" class="far fa-square"></button>
+                    <button id="whiteboardCircleBtn" class="far fa-circle"></button>
+                    <button id="whiteboardSaveBtn" class="fas fa-save"></button>
+                    <button id="whiteboardEraserBtn" class="fas fa-eraser"></button>
+                    <button id="whiteboardCleanBtn" class="fas fa-trash"></button>
+                </div>
+            </header>
+            <main>
+                <canvas id="wbCanvas"></canvas>
+            </main>
+        </section>
+
+        <section id="chatRoom" class="chat-room center fadein">
+            <section id="msger" class="msger">
+                <header id="chatHeader" class="chat-header">
+                    <div class="chat-header-title">
+                        <button id="chatCloseButton" class="fas fa-times"></button>
+                    </div>
+                    <div class="chat-header-options">
+                        <button id="chatGhostButton" class="fas fa-circle-half-stroke"></button>
+                        <button id="chatSaveButton" class="fas fa-save"></button>
+                        <button id="chatCleanButton" class="fas fa-trash"></button>
+                    </div>
+                </header>
+                <main id="chatMsger" class="chat-msger">
+                    <!-- chat messages -->
+                </main>
+                <div class="chat-msger-inputarea">
+                    <textarea
+                        rows="1"
+                        cols="1"
+                        id="chatMessage"
+                        class="chat-msger-input"
+                        placeholder="💬 Write a message..."
+                    ></textarea>
+                </div>
+                <div class="chat-msger-buttons">
+                    <button id="chatEmojiButton" class="hidden">
+                        <i class="fas fa-smile"></i>
+                    </button>
+                    <button id="chatMarkdownButton" class="hidden">
+                        <i class="fab fa-markdown"></i>
+                    </button>
+                    <button id="chatShareFileButton" class="hidden">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <button id="chatSpeechStartButton" class="hidden">
+                        <i class="fas fa-microphone-slash"></i>
+                    </button>
+                    <button id="chatSpeechStopButton" class="hidden">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button id="chatCleanTextButton" class="hidden">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button id="chatPasteButton" class="hidden">
+                        <i class="fas fa-paste"></i>
+                    </button>
+                    <div class="form-check form-switch form-switch-md">
+                        &nbsp;&nbsp;&nbsp;
+                        <input class="form-check-input" type="checkbox" id="showChatOnMsg" checked />
+                    </div>
+                    <button id="chatSendButton" class="hidden">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div id="chatEmoji" class="hidden fadein"></div>
+            </section>
+        </section>
+
+        <section id="lobby" class="fadein center hidden">
+            <header id="lobbyHeader" class="lobby-header">
+                <div id="lobbyHeaderTitle" class="lobby-header-title">Lobby users</div>
+            </header>
+            <main>
+                <div id="lobbyUsers">
+                    <table id="lobbyTb">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr id="lobbyAll">
+                            <td>&nbsp;<i class="fas fa-users fa-lg"></i></td>
+                            <td>All</td>
+                            <td>
+                                <button id="lobbyAcceptAllBtn" onclick="rc.lobbyAcceptAll()">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button id="lobbyRejectAllBtn" onclick="rc.lobbyRejectAll()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </main>
+        </section>
+
+        <!-- 
+            Start Google Translate 
+        -->
+        <script>
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+            }
+        </script>
+        <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    </body>
+</html>
