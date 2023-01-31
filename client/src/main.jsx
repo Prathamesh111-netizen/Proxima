@@ -8,9 +8,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import LandingPage from "./pages/LandingPage";
+import LandingPage from "./pages/Landing/LandingPage";
 import Dashboard from "./pages/Dashboard";
-import JoinMeeting from "./pages/JoinMeeting";
+import JoinMeeting from "./pages/Join/JoinMeeting";
 import CreateMeeting from "./pages/CreateMeeting";
 import Meeting from "./pages/Meeting";
 
