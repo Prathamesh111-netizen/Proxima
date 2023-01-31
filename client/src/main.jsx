@@ -8,11 +8,12 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import LandingPage from "./pages/Landing/LandingPage";
-import Dashboard from "./pages/Dashboard";
-import JoinMeeting from "./pages/Join/JoinMeeting";
-import CreateMeeting from "./pages/CreateMeeting";
-import Meeting from "./pages/Meeting";
+import LandingPage from "./pages/Landing/LandingPage.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import JoinMeeting from "./pages/Join/JoinMeeting.jsx";
+import CreateMeeting from "./pages/CreateMeet/CreateMeeting.jsx";
+import Meeting from "./pages/Meeting.jsx";
+import Lobby from "./pages/Lobby/Lobby";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
       />
       <Route path="my-meetings" element={<CreateMeeting />} />
       <Route path="dashboard" element={<Dashboard />} />
+      <Route path="lobby" element={<Lobby />} />
       <Route path="" element={<LandingPage />} />
     </Route>
   )
