@@ -1,7 +1,7 @@
 //Landing Page
 import React from "react";
 import { Link } from "react-router-dom";
-import demoGif from "../../assets/demo.gif";
+import demoGif from "../../assets/code.gif";
 import Navbar from "../../components/Navbar";
 import "./LandingPage.scss";
 import feature1 from "../images/feature-icon-01.svg";
