@@ -2,6 +2,7 @@
   "name": "client",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://prathamesh111-netizen.github.io/0xkid-FVM-Space-Warp/",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,6 +23,8 @@
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.8.0",
     "react-syntax-highlighter": "^15.5.0",
+    "react-toastify": "^9.1.1",
+    "react-webcam": "^7.0.1",
     "sass": "^1.57.1",
     "socket.io-client": "^4.5.4",
     "sort-by": "^0.0.2",
@@ -30,7 +33,7 @@
   "devDependencies": {
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
-    "@vitejs/plugin-react": "^3.0.0",
+    "@vitejs/plugin-react": "^3.0.1",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4",
