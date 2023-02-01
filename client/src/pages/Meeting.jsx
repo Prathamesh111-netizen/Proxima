@@ -9,6 +9,7 @@ import MeVideoElem from "../components/MeVideoElem";
 import PeerVideoAudioElem from "../components/PeerVideoAudioElem";
 import ScreenRecorder from "../components/screenRecorder";
 import Container from '../components/container/Container';
+// import NewBoard from "../components/newBoardcomponents/board"
 
 const Meeting = () => {
   const { id: meetingId } = useParams();
@@ -50,7 +51,8 @@ const Meeting = () => {
             ))}
           </div>
           <ScreenRecorder /> */}
-          <Container documentId="123" meetingId={meetingId} />
+          {/* <Container documentId="123" meetingId={meetingId} /> */}
+          {/* <NewBoard /> */}
         </React.Fragment>
       )}
     </React.Fragment>

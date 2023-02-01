@@ -43,6 +43,17 @@ const Navbar = () => {
             </div>
           </div> */}
         </div>
+        {!isLoggedin && (
+          <div className="dropdown dropdown-end flex gap-3">
+                <Link to="/login" className="justify-between">
+                  Login
+                </Link>
+                <Link to="/register" className="justify-between">
+                  Register
+                </Link>
+          </div>
+        )}
+
         {isLoggedin && (
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">

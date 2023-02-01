@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/Navbar.jsx";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
-// import toast from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 //Schedule Meeting Page in React tailwind and daisy
 
 export default function CreateMeeting() {

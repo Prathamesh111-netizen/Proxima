@@ -14,6 +14,8 @@ import JoinMeeting from "./pages/Join/JoinMeeting.jsx";
 import CreateMeeting from "./pages/CreateMeet/CreateMeeting.jsx";
 import Meeting from "./pages/Meeting.jsx";
 import Lobby from "./pages/Lobby/Lobby";
+import { ToastContainer } from 'react-toastify';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,5 +38,6 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
+    <ToastContainer />
   </React.StrictMode>
 );

@@ -10,7 +10,9 @@ import feature3 from "../images/feature-icon-03.svg";
 import feature4 from "../images/feature-icon-04.svg";
 import feature5 from "../images/feature-icon-05.svg";
 import feature6 from "../images/feature-icon-06.svg";
+//import Waves from "./waves"
 // import { useAuth } from "../context/AuthContext";
+
 const LandingPage = () => {
   //   const { user } = useAuth();
 
@@ -40,7 +42,7 @@ const LandingPage = () => {
               Create A Meeting
             </a>
             <a
-              href="/join"
+              href="/lobby"
               className="text-xl bg-purple-600 inline-block text-center rounded m-1 p-5 ml-10"
             >
               Join a Meeting

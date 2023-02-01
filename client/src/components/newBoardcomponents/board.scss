@@ -1,0 +1,79 @@
+.Board {
+  #whiteboard {
+    z-index: 4;
+    position: absolute;
+    margin: auto;
+    padding: 10px;
+    width: var(--wb-width);
+    height: var(--wb-height);
+    background: var(--wb-bg);
+    border: var(--border);
+    box-shadow: var(--box-shadow);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .whiteboard-header {
+    display: flex;
+    justify-content: space-between;
+    background: rgb(0, 0, 0);
+    border-radius: 10px;
+    padding: 10px;
+    color: #fff;
+    cursor: move;
+  }
+
+  .whiteboard-header button {
+    padding: 10px;
+    margin: 2px;
+    border-radius: 5px;
+    border: var(--border);
+  }
+
+  .whiteboardColorPicker {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 0;
+    width: 20px;
+    height: 15px;
+    margin: 2px;
+    border-radius: 20px;
+    border: solid 0.5px #afadad38;
+  }
+  .whiteboardColorPicker:hover {
+    transform: var(--btns-hover-scale);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  .whiteboardColorPicker::-webkit-color-swatch {
+    border: none;
+    border-radius: 20px;
+    padding: 0;
+  }
+  .whiteboardColorPicker::-webkit-color-swatch-wrapper {
+    border: none;
+    border-radius: 20px;
+    padding: 0;
+  }
+  .whiteboardColorPicker::-moz-color-swatch {
+    border: none;
+    border-radius: 20px;
+    padding: 0;
+  }
+  .whiteboardColorPicker::-moz-color-swatch-wrapper {
+    border: none;
+    border-radius: 20px;
+    padding: 0;
+  }
+  .whiteboardColorPicker::color-swatch {
+    border: none;
+    border-radius: 20px;
+    padding: 0;
+  }
+  .whiteboardColorPicker::color-swatch-wrapper {
+    border: none;
+    border-radius: 20px;
+    padding: 0;
+  }
+}
