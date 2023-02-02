@@ -38,6 +38,7 @@ const Meeting = () => {
       });
       console.log("ROOM-STATE", roomState);
       setLoading(false);
+      await huddleClient.muteMic();
     }, 3000);
   }, []);
 

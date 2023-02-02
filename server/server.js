@@ -36,13 +36,13 @@ app.use(
 
 app.post("/api/exe", async (req, res) => {
   try {
-    const { code } = req.body;
+    const { code, input } = req.body;
     const body = {
       clientId: process.env.JDOODLE_CLIENT_ID ,
       clientSecret: process.env.JDOODLE_CLIENT_SECRET,
       script: code,
       language: "cpp17",
-      stdin: "1 2",
+      stdin: input,
       versionIndex: "0",
     };
 

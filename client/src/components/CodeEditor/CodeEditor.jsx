@@ -132,23 +132,27 @@ export default function TextEditor(props) {
       },
       theme: "snow",
     });
-    // q.disable();
+    q.disable();
     q.setText("");
     setStdOut(q);
   }, []);
 
   const compileCode = async () => {
     const code = quill.getText(0, quill.getLength());
+    const input = stdin.getText(0, stdin.getLength());
     console.log(code);
+    console.log(input);
     const body = {
       code: code,
+      input : input
     };
-    await axios
-      .post(import.meta.env.VITE_COMPILER_PATH, body)
-      .then((res) => {
-        console.log(res);
-        stdout.setText(res);
-      });
+    await axios.post(import.meta.env.VITE_COMPILER_PATH, body).then((res) => {
+      const { data } = res;
+      console.log(data);
+      stdout.setText(data.output);
+
+      // emit
+    });
   };
 
   return (
@@ -177,7 +181,7 @@ export default function TextEditor(props) {
       <Button
         variant="contained"
         endIcon={<SendIcon />}
-        sx={{ mt  : 1}}
+        sx={{ mt: 1 }}
         onClick={compileCode}
       >
         Compile and run
