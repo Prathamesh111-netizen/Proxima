@@ -8,6 +8,7 @@ import LoadingScreen from "../../components/loader";
 import MeVideoElem from "../../components/MeetingElements/MeVideoElem";
 import PeerVideoAudioElem from "../../components/MeetingElements/PeerVideoAudioElem";
 import MeetingTabs from "../../components/MeetingTabs/MeetingTabs";
+import Toolbuttons from "../../components/MeetingElements/Toolbuttons";
 
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -38,43 +39,49 @@ const Meeting = () => {
       });
       console.log("ROOM-STATE", roomState);
       setLoading(false);
-      await huddleClient.muteMic();
     }, 3000);
   }, []);
 
   return (
     <div className="MeetingPage">
-      {/* {loading && <LoadingScreen />} */}
-      {!loading && (
-        <div className="MeetingPageComponent">
-          <div>
-            <Box sx={{ flexGrow: 1, p: 2 }}>
-              <Grid container spacing={2}>
-                <Grid xs={8}>
-                  <Item>
-                    <MeetingTabs documentId={meetingId} meetingId={meetingId} />
-                  </Item>
+      <div className="MeetingPageFullPage">
+        {/* {loading && <LoadingScreen />} */}
+        {!loading && (
+          <div className="MeetingPageComponent">
+            <div>
+              <Box className="MeetingBoxComponent">
+                <Grid container spacing={2}>
+                  <Grid xs={8} className="MeetingGridComponent">
+                    <Item>
+                      <MeetingTabs
+                        documentId={meetingId}
+                        meetingId={meetingId}
+                        className="Meetingtabscomponent"
+                      />
+                    </Item>
+                  </Grid>
+                  <Grid xs={4} className="VideoGridComponent">
+                    <Item>
+                      <MeVideoElem />
+                      <br></br>
+                      <br></br>
+                      <div className="peers-grid">
+                        {peersKeys.map((key) => (
+                          <PeerVideoAudioElem
+                            key={`peerId-${key}`}
+                            peerIdAtIndex={key}
+                          />
+                        ))}
+                      </div>
+                    </Item>
+                  </Grid>
                 </Grid>
-                <Grid xs={4}>
-                  <Item>
-                    <MeVideoElem /> 
-                    <br></br>
-                    <br></br>
-                    <div className="peers-grid">
-                      {peersKeys.map((key) => (
-                        <PeerVideoAudioElem
-                          key={`peerId-${key}`}
-                          peerIdAtIndex={key}
-                        />
-                      ))}
-                    </div>
-                  </Item>
-                </Grid>
-              </Grid>
-            </Box>
+              </Box>
+              <Toolbuttons />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
