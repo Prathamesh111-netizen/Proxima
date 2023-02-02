@@ -1,13 +1,73 @@
 //Navbar
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ethers } from "ethers";
+import { toast } from "react-toastify";
+import { AvatarGenerator } from "random-avatar-generator";
 
 const Navbar = () => {
   const [isLoggedin, setIsLoggedin] = useState(false);
+  const navigate = useNavigate();
+
+  const JoinMeeting = () => {
+    navigate("/join");
+  };
+
+  const CreateMeeting = () => {
+    navigate("/create");
+  };
+
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [defaultAccount, setDefaultAccount] = useState(null);
+  const [userBalance, setUserBalance] = useState(null);
+  const [connButtonText, setConnButtonText] = useState("Connect Wallet");
+  const [provider, setProvider] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+
+  const connectWalletHandler = () => {
+    if (window.ethereum && defaultAccount == null) {
+      // set ethers provider
+      setProvider(new ethers.providers.Web3Provider(window.ethereum));
+
+      // connect to metamask
+      window.ethereum
+        .request({ method: "eth_requestAccounts" })
+        .then((result) => {
+          console.log(result);
+          setConnButtonText("Wallet Connected");
+          toast.success("Wallet Connected");
+          setIsLoggedin(true);
+          setDefaultAccount(result[0]);
+          localStorage.setItem("defaultAccount", JSON.stringify(result[0]));
+          localStorage.setItem("userBalance", JSON.stringify(result[0]));
+
+          const generator = new AvatarGenerator();
+
+          setAvatar(generator.generateRandomAvatar());
+          
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
+        });
+    } else if (!window.ethereum) {
+      console.log("Need to install MetaMask");
+      setErrorMessage("Please install MetaMask browser extension to interact");
+    }
+  };
+
+  useEffect(() => {
+    if (defaultAccount) {
+      provider.getBalance(defaultAccount).then((balanceResult) => {
+        setUserBalance(ethers.utils.formatEther(balanceResult));
+      });
+    }
+  }, [defaultAccount]);
   return (
-    <div className="w-11/12 md:mr-10 md:ml-10 ml-5 mt-5 rounded-xl navbar bg-purple-600">
+    <div className="w-11/12 md:mr-10 md:ml-10 ml-5 mt-5 rounded-xl navbar ">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">deCollab</a>
+        <a className=" normal-case text-xl" href="/">
+          Proxima
+        </a>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
@@ -45,12 +105,9 @@ const Navbar = () => {
         </div>
         {!isLoggedin && (
           <div className="dropdown dropdown-end flex gap-3">
-                <Link to="/login" className="justify-between">
-                  Login
-                </Link>
-                <Link to="/register" className="justify-between">
-                  Register
-                </Link>
+            <button className="justify-between" onClick={connectWalletHandler}>
+              Connect Now
+            </button>
           </div>
         )}
 
@@ -58,7 +115,7 @@ const Navbar = () => {
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                <img src={avatar} />
               </div>
             </label>
             <ul
@@ -67,12 +124,9 @@ const Navbar = () => {
             >
               <li>
                 <a className="justify-between">
-                  Profile
+                  Dashboard
                   <span className="badge">New</span>
                 </a>
-              </li>
-              <li>
-                <a>Settings</a>
               </li>
               <li>
                 <a>Logout</a>

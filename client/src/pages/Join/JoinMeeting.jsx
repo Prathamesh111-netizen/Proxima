@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Navbar from "../../components/Navbar";
+import Waves from "../../components/Waves/waves";
 // import getRoomCode from "./getRoomCode.js";
 
 export default function CreateMeeting() {
@@ -12,6 +13,7 @@ export default function CreateMeeting() {
 
   return (
     <div>
+      <Waves />
       <Navbar />
 
       {/*A page where users can join a meeting*/}

@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 //Schedule Meeting Page in React tailwind and daisy
+import Waves from "../../components/Waves/waves"
 
 export default function CreateMeeting() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export default function CreateMeeting() {
 
   return (
     <div>
+      <Waves/>
       <NavBar />
       <div className="bg-gray-50 flex flex-col sm:py-12">
         <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">

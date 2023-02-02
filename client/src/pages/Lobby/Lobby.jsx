@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
 import Webcam from "react-webcam";
+import Waves from "../../components/Waves/waves"
 
 export default function Lobby() {
   const videoConstraints = {
@@ -30,6 +31,7 @@ export default function Lobby() {
   );
   return (
     <>
+    <Waves/>
       <Navbar />
       <div>
         <div className="flex flex-col items-center justify-center pt-10 pb-10">

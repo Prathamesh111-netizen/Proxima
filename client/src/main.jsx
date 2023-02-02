@@ -12,7 +12,7 @@ import LandingPage from "./pages/Landing/LandingPage.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import JoinMeeting from "./pages/Join/JoinMeeting.jsx";
 import CreateMeeting from "./pages/CreateMeet/CreateMeeting.jsx";
-import Meeting from "./pages/Meeting.jsx";
+import Meeting from "./pages/MeetingPage/Meeting";
 import Lobby from "./pages/Lobby/Lobby";
 import { ToastContainer } from 'react-toastify';
 
