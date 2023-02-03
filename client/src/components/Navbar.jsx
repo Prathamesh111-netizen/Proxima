@@ -38,13 +38,10 @@ const Navbar = () => {
           toast.success("Wallet Connected");
           setIsLoggedin(true);
           setDefaultAccount(result[0]);
+          const generator = new AvatarGenerator();
           localStorage.setItem("defaultAccount", JSON.stringify(result[0]));
           localStorage.setItem("userBalance", JSON.stringify(result[0]));
-
-          const generator = new AvatarGenerator();
-
           setAvatar(generator.generateRandomAvatar());
-          
         })
         .catch((error) => {
           setErrorMessage(error.message);
@@ -66,13 +63,25 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    if (defaultAccount) {
+    if (provider && defaultAccount) {
       provider.getBalance(defaultAccount).then((balanceResult) => {
         setUserBalance(ethers.utils.formatEther(balanceResult));
       });
     }
   }, [defaultAccount]);
 
+  useEffect(() => {
+    const defaultAccount = JSON.parse(localStorage.getItem("defaultAccount"));
+    const userBalance = JSON.parse(localStorage.getItem("userBalance"));
+    if (defaultAccount) {
+      setDefaultAccount(defaultAccount);
+      setUserBalance(userBalance);
+      setIsLoggedin(true);
+      setConnButtonText("Wallet Connected");
+      const generator = new AvatarGenerator();
+      setAvatar(generator.generateRandomAvatar());
+    }
+  }, []);
 
   return (
     <div className="w-11/12 md:mr-10 md:ml-10 ml-5 mt-5 rounded-xl navbar ">
@@ -105,6 +114,11 @@ const Navbar = () => {
                 <a className="justify-between">
                   Dashboard
                   <span className="badge">New</span>
+                </a>
+              </li>
+              <li>
+                <a className="justify-between">
+                  My Meetings
                 </a>
               </li>
               <li onClick={logout}>

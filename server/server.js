@@ -1,14 +1,32 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const Document = require("./models/Document.model");
-const Canvas = require("./models/Canvas.model");
 const axios = require("axios");
+const morgan = require("morgan");
+const Code = require("./models/Code.model");
+const Canvas = require("./models/Canvas.model");
 
-mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const compileRoutes = require("./routes/compile.routes");
+const meetingRoutes =   require("./routes/meeting.routes");
+
+// connect to the mongoDB collection
+const connectDB = () => {
+  mongoose.set("strictQuery", false);
+	mongoose
+		.connect(process.env.MONGO_URL, {
+			useUnifiedTopology: true,
+			useNewUrlParser: true,
+		})
+		.then((res) =>
+			console.log(
+				`MongoDB Connected: ${res.connection.host}`)
+		)
+		.catch((err) => {
+			console.error(`Error: ${err.message}`);
+			process.exit(1);
+		});
+};
+
+connectDB();
 
 const io = require("socket.io")(process.env.PORT, {
   cors: {
@@ -34,26 +52,9 @@ app.use(
   })
 );
 
-app.post("/api/exe", async (req, res) => {
-  try {
-    const { code, input } = req.body;
-    const body = {
-      clientId: process.env.JDOODLE_CLIENT_ID ,
-      clientSecret: process.env.JDOODLE_CLIENT_SECRET,
-      script: code,
-      language: "cpp17",
-      stdin: input,
-      versionIndex: "0",
-    };
-
-    axios.post(process.env.JDOODLE_BASEURL, body).then(response=>{
-      res.send(response.data)
-    })
-    
-  } catch (error) {
-    console.log("error", error);
-  }
-});
+app.use(morgan("dev"));
+app.use("/api/compile", compileRoutes);
+app.use("/api/meeting", meetingRoutes);
 
 app.listen(3001, () => {
   console.log(`listening on *:3001`);
@@ -72,7 +73,7 @@ io.on("connection", (socket) => {
       });
 
       socket.on("save-document", async (data) => {
-        await Document.findByIdAndUpdate(documentId, { data });
+        await Code.findByIdAndUpdate(documentId, { data });
         // find document by id from astra -> get old fileCID -> delete old file from lighthouse storage
         // upload new file to lighthouse -> save new fileCID to astra
       });
@@ -99,9 +100,9 @@ io.on("connection", (socket) => {
 async function findOrCreateDocument(id) {
   if (id == null) return;
 
-  const document = await Document.findById(id);
+  const document = await Code.findById(id);
   if (document) return document;
-  return await Document.create({ _id: id, data: "" });
+  return await Code.create({ _id: id, data: "" });
 }
 
 async function findOrCreateCanvas(id) {

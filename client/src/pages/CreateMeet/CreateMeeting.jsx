@@ -1,23 +1,33 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/Navbar.jsx";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 //Schedule Meeting Page in React tailwind and daisy
-import Waves from "../../components/Waves/waves"
+import Waves from "../../components/Waves/waves";
 
 export default function CreateMeeting() {
   const navigate = useNavigate();
+  const [isLoggedin, setIsLoggedin] = useState(false);
+  const [hostWalletAddress, setHostWalletAddress] = useState("");
   const submit = () => {
     console.log("Meeting Scheduled");
     toast.success("Meeting Scheduled Successfully");
     // navigate("/dashboard");
   };
 
+  useEffect(() => {
+    const defaultAccount = JSON.parse(localStorage.getItem("defaultAccount"));
+    if (defaultAccount) {
+      setIsLoggedin(true);
+      setHostWalletAddress(defaultAccount)
+    }
+  }, []);
+
   return (
     <div>
-      <Waves/>
+      <Waves />
       <NavBar />
       <div className="bg-gray-50 flex flex-col sm:py-12">
         <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
@@ -41,21 +51,14 @@ export default function CreateMeeting() {
                 className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
               />
               <label className="font-semibold text-sm text-gray-600 pb-1 block">
-                Meeting Code
-              </label>
-              <input
-                type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                placeholder={uuidv4()}
-                required
-              />
-              <label className="font-semibold text-sm text-gray-600 pb-1 block">
                 Enter Host Wallet Address *
               </label>
               <input
                 type="text"
                 className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                placeholder="Enter Host Wallet Address"
+                placeholder="Host Wallet Address"
+                value={hostWalletAddress}
+                disabled
               />
               <label className="font-semibold text-sm text-gray-600 pb-1 block">
                 Description
@@ -80,6 +83,7 @@ export default function CreateMeeting() {
                   onClick={() => {
                     submit;
                   }}
+                  disabled={isLoggedin ? false : true}
                 >
                   Start An instant Meeting
                 </button>
