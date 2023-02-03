@@ -63,7 +63,9 @@ const LandingPage = () => {
                 <div className="feature-icon">
                   <img src={feature1} alt="mirotalksfu-screen" />
                 </div>
-                <h4 className="feature-title mt-24">Screen Sharing</h4>
+                <h4 className="feature-title text-sky-600 mt-24">
+                  Screen Sharing
+                </h4>
                 <p className="text-sm mb-0">
                   Share your screen, application window, present your documents,
                   slides and more.
@@ -75,7 +77,9 @@ const LandingPage = () => {
                 <div className="feature-icon">
                   <img src={feature2} alt="mirotalksfu-webcam" />
                 </div>
-                <h4 className="feature-title mt-24">WebCam Streaming</h4>
+                <h4 className="feature-title text-sky-600 mt-24">
+                  WebCam Streaming
+                </h4>
                 <p className="text-sm mb-0">
                   Having the webcam on, allows participants to make a deeper
                   connection with you. Up to 4k resolution.
@@ -87,7 +91,9 @@ const LandingPage = () => {
                 <div className="feature-icon">
                   <img src={feature3} alt="mirotalksfu-audio" />
                 </div>
-                <h4 className="feature-title mt-24">Audio Streaming</h4>
+                <h4 className="feature-title text-sky-600 mt-24">
+                  Audio Streaming
+                </h4>
                 <p className="text-sm mb-0">
                   Echo cancellation and noise suppression that make your audio
                   crystal clear.
@@ -99,7 +105,7 @@ const LandingPage = () => {
                 <div className="feature-icon">
                   <img src={feature4} alt="mirotalksfu-chat" />
                 </div>
-                <h4 className="feature-title mt-24">Chat</h4>
+                <h4 className="feature-title text-sky-600 mt-24">Chat</h4>
                 <p className="text-sm mb-0">
                   Chat with others in meeting with integrated emoji picker to
                   show your feeling.
@@ -111,7 +117,9 @@ const LandingPage = () => {
                 <div className="feature-icon">
                   <img src={feature5} alt="mirotalksfu-recording" />
                 </div>
-                <h4 className="feature-title mt-24">Recording meeting</h4>
+                <h4 className="feature-title text-sky-600 mt-24">
+                  Recording meeting
+                </h4>
                 <p className="text-sm mb-0">
                   Record your Screen, Video, and Audio on Your browser Blob.
                   Save it for using it in the future or to share with others.
@@ -123,7 +131,7 @@ const LandingPage = () => {
                 <div className="feature-icon">
                   <img src={feature6} alt="mirotalksfu-whiteboard" />
                 </div>
-                <h4 className="feature-title mt-24">
+                <h4 className="feature-title text-sky-600 mt-24">
                   Collaborative Whiteboard
                 </h4>
                 <p className="text-sm mb-0">
@@ -137,7 +145,9 @@ const LandingPage = () => {
                 <div className="feature-icon">
                   <img src={feature1} alt="mirotalksfu-filesharing" />
                 </div>
-                <h4 className="feature-title mt-24">File Sharing</h4>
+                <h4 className="feature-title text-sky-600 mt-24">
+                  File Sharing
+                </h4>
                 <p className="text-sm mb-0">
                   Share any types of files with all participants in the meeting.
                 </p>
@@ -148,7 +158,9 @@ const LandingPage = () => {
                 <div className="feature-icon">
                   <img src={feature2} alt="mirotalksfu-privacy" />
                 </div>
-                <h4 className="feature-title mt-24">Total privacy</h4>
+                <h4 className="feature-title text-sky-600 mt-24">
+                  Total privacy
+                </h4>
                 <p className="text-sm mb-0">
                   Data stays between you and your participants. MiroTalk SFU
                   doesn't collect or share personal information.
@@ -160,7 +172,9 @@ const LandingPage = () => {
                 <div className="feature-icon">
                   <img src={feature3} alt="mirotalksfu-security" />
                 </div>
-                <h4 className="feature-title mt-24">Maximum security</h4>
+                <h4 className="feature-title text-sky-600 mt-24">
+                  Maximum security
+                </h4>
                 <p className="text-sm mb-0">
                   Thanks to WebRTC, all the media streams are encrypted using
                   Secure Real-time Transport Protocol (SRTP).
