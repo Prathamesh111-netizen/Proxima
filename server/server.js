@@ -6,6 +6,20 @@ const axios = require("axios");
 const fs = require("fs");
 const lighthouse = require("@lighthouse-web3/sdk");
 
+const uploadFileToLightHouse = async (ogpath) => {
+  const path = ogpath; //Give path to the file
+  const apiKey = process.env.LIGHTHOUSE_API_KEY; //generate from https://files.lighthouse.storage/ or cli (lighthouse-web3 api-key --new)
+
+  // Both file and folder supported by upload function
+  const response = await lighthouse.upload(path, apiKey);
+
+  // Display response
+  console.log(response);
+  console.log(
+    "Visit at: https://gateway.lighthouse.storage/ipfs/" + response.Hash
+  );
+};
+
 const multer = require("multer");
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -24,15 +38,6 @@ mongoose.connect(process.env.MONGO_URL, {
   useUnifiedTopology: true,
 });
 
-const io = require("socket.io")(process.env.PORT, {
-  cors: {
-    credentials: true,
-    origin: process.env.FRONTEND_SERVER,
-    transports: ["websocket", "polling"],
-    methods: ["GET", "POST"],
-  },
-});
-
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -47,6 +52,9 @@ app.use(
     allowEIO3: true,
   })
 );
+const server = app.listen(3001, () => {
+  console.log(`listening on *:3001`);
+});
 
 app.post("/api/exe", async (req, res) => {
   try {
@@ -68,19 +76,31 @@ app.post("/api/exe", async (req, res) => {
   }
 });
 
-const uploadFileToLightHouse = async (ogpath) => {
-  const path = ogpath; //Give path to the file
-  const apiKey = process.env.LIGHTHOUSE_API_KEY; //generate from https://files.lighthouse.storage/ or cli (lighthouse-web3 api-key --new)
-
-  // Both file and folder supported by upload function
-  const response = await lighthouse.upload(path, apiKey);
-
-  // Display response
-  console.log(response);
-  console.log(
-    "Visit at: https://gateway.lighthouse.storage/ipfs/" + response.Hash
-  );
-};
+app.post("/api/save-code", async (req, res) => {
+  try {
+    const { code } = req.body;
+    fs.writeFile("code.cpp", code, (err) => {
+      if (err) {
+        console.log("Error writing file", err);
+      } else {
+        console.log("Successfully wrote file");
+      }
+    });
+    uploadFileToLightHouse("code.cpp").then((response) => {
+      console.log(response);
+      res.json({ message: "Successfully uploaded files" });
+      fs.unlinkSync("code.cpp", (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        //file removed
+      });
+    });
+  } catch (error) {
+    console.log("error", error);
+  }
+});
 
 app.post("/api/upload-file", upload.single("file"), (req, res) => {
   console.log(req.body);
@@ -102,18 +122,27 @@ app.post("/api/upload-file", upload.single("file"), (req, res) => {
       res.json({ message: "Error uploading files" });
     });
 });
-
-app.listen(3001, () => {
-  console.log(`listening on *:3001`);
+const io = require("socket.io")(server, {
+  cors: {
+    credentials: true,
+    origin: process.env.FRONTEND_SERVER,
+    transports: ["websocket", "polling"],
+    methods: ["GET", "POST"],
+  },
 });
-
 io.on("connection", (socket) => {
   socket.on("join-room", async (meetingId) => {
     socket.join(meetingId);
     console.log(socket.id, "join-room");
     socket.on("get-document", async (documentId) => {
-      const document = await findOrCreateDocument(documentId);
-      socket.emit("load-document", document.data);
+      const document = await findOrCreateDocument(documentId)
+        .then((result) => {
+          socket.emit("load-document", document.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      // socket.emit("load-document", document.data);
 
       socket.on("send-changes", (delta) => {
         socket.broadcast.to(meetingId).emit("receive-changes", delta);
