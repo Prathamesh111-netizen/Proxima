@@ -1,5 +1,6 @@
 import React from "react";
 
+//TODO Fetch Files for Meeting Id props.meetingId
 const Files = (props) => {
   const [files, setFiles] = React.useState([]);
   const handleFileUpload = (e) => {
@@ -21,18 +22,20 @@ const Files = (props) => {
           </div>
         ))}
       </div>
-      <form
-        className="pt-10"
-        action=""
-        method="post"
-        id="form"
-        onSubmit={handleFileUpload}
-      >
-        <input type="file" className="" name="fileInput" />
-        <button className="btn bg-purple-600" type="submit">
-          Upload
-        </button>
-      </form>
+      {!props.isDashboard && (
+        <form
+          className="pt-10"
+          action=""
+          method="post"
+          id="form"
+          onSubmit={handleFileUpload}
+        >
+          <input type="file" className="" name="fileInput" />
+          <button className="btn bg-purple-600" type="submit">
+            Upload
+          </button>
+        </form>
+      )}
     </div>
   );
 };

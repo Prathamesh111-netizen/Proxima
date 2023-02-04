@@ -1,6 +1,28 @@
 import React from "react";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Files from "./Files/Files";
 
 const DashboardTable = ({ myMeetings }) => {
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const [openModal1, setOpenModal1] = React.useState(false);
+  const [openModal2, setOpenModal2] = React.useState(false);
+  const handleOpenModal1 = () => setOpenModal1(true);
+  const handleCloseModal1 = () => setOpenModal1(false);
+  const handleOpenModal2 = () => setOpenModal2(true);
+  const handleCloseModal2 = () => setOpenModal2(false);
+
   return (
     <div className="container">
       <div className="flex flex-col">
@@ -88,24 +110,31 @@ const DashboardTable = ({ myMeetings }) => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <button
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                          onClick={() => {
-                            console.log("Joining meeting");
-                          }}
+                        <a
+                          href={`${import.meta.env.VITE_FRONTEND_URL}/meeting/${
+                            meeting.id
+                          }`}
                         >
-                          <a href={`${hello}`}></a>
-                        </button>
+                          {`${import.meta.env.VITE_FRONTEND_URL}/meeting/${
+                            meeting.id
+                          }`}
+                        </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <button
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                          onClick={() => {
-                            console.log("Viewing transcript");
-                          }}
+                          onClick={() => handleOpenModal1()}
                         >
                           View Transcript
                         </button>
+                        <Modal
+                          open={openModal1}
+                          onClose={handleCloseModal1}
+                          aria-labelledby="modal-modal-title"
+                          aria-describedby="modal-modal-description"
+                        >
+                          <Box sx={modalStyle}>Viewing Transcript</Box>
+                        </Modal>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <button
@@ -120,12 +149,38 @@ const DashboardTable = ({ myMeetings }) => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <button
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                          onClick={() => {
-                            console.log("Viewing Files");
-                          }}
+                          onClick={() => handleOpenModal2()}
                         >
                           View Files
                         </button>
+                        <Modal
+                          open={openModal2}
+                          onClose={handleCloseModal2}
+                          aria-labelledby="modal-modal-title"
+                          aria-describedby="modal-modal-description"
+                        >
+                          <Box sx={modalStyle} className="flex flex-col gap-2">
+                            <a
+                              className="link"
+                              href={`${
+                                import.meta.env.VITE_FRONTEND_URL
+                              }/get-code/${meeting.id}`}
+                              download
+                            >
+                              Download Code
+                            </a>
+                            <a
+                              className="link"
+                              href={`${
+                                import.meta.env.VITE_BACKEND_SERVER
+                              }/get-whiteboard/${meeting.id}`}
+                              download
+                            >
+                              Download Whiteboard Image
+                            </a>
+                            <Files isDashboard={true} meetingId={meeting.id} />
+                          </Box>
+                        </Modal>
                       </td>
                     </tr>
                   ))}

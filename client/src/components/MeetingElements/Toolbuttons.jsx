@@ -15,6 +15,7 @@ import { useHuddleStore } from "@huddle01/huddle01-client/store";
 import { toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
 import { Box } from "@mui/material";
+import CallEnd from "@mui/icons-material/CallEnd";
 
 const Modalstyle = {
   position: "absolute",
@@ -170,6 +171,17 @@ export default function Toolbuttons() {
           }}
         >
           <ShareButtonIcon />
+        </IconButton>
+        <IconButton
+          aria-label="Share Meeting"
+          size="small"
+          sx={{ color: "white", backgroundColor: "red" }}
+          className="IconButtonsComponent"
+          onClick={() => {
+            window.location.href = "/";
+          }}
+        >
+          <CallEnd />
         </IconButton>
       </div>
     </div>

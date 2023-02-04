@@ -6,15 +6,15 @@ import Navbar from "../components/Navbar";
 import DashboardTable from "../components/DashboardTable";
 
 export default function Dashboard() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const JoinMeeting = () => {
-    navigate("/join");
-  };
+  // const JoinMeeting = () => {
+  //   navigate("/join");
+  // };
 
-  const CreateMeeting = () => {
-    navigate("/create");
-  };
+  // const CreateMeeting = () => {
+  //   navigate("/create");
+  // };
 
   // const [errorMessage, setErrorMessage] = useState(null);
   // const [defaultAccount, setDefaultAccount] = useState(null);
@@ -83,7 +83,11 @@ export default function Dashboard() {
   // }, [defaultAccount]);
 
   useEffect(() => {
-    if (localStorage.getItem("defaultAccount")) {
+    // console.log(import.meta.env);
+    if (
+      localStorage.getItem("defaultAccount") &&
+      window.ethereum.selectedAddress
+    ) {
       setIsLoggedin(true);
       const sortedMeetings = myMeetings;
       sortedMeetings.meetings.sort((a, b) => {
@@ -95,6 +99,8 @@ export default function Dashboard() {
       });
       // console.log(sortedMeetings);
       setMyMeetings(sortedMeetings);
+    } else {
+      setIsLoggedin(false);
     }
   }, []);
 
