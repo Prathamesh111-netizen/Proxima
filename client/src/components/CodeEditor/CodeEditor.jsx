@@ -10,7 +10,10 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import SendIcon from "@mui/icons-material/Send";
+//import SendIcon from "@mui/icons-material/Send";
+//import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -178,14 +181,20 @@ export default function TextEditor(props) {
           </Grid>
         </Grid>
       </Box>
-      <Button
-        variant="contained"
-        endIcon={<SendIcon />}
-        sx={{ mt: 1 }}
-        onClick={compileCode}
-      >
-        Compile and run
-      </Button>
+      <div className="container flex gap-10">
+        <Button
+          variant="contained"
+          endIcon={<PlayArrowIcon />}
+          sx={{ mt: 1 }}
+          onClick={compileCode}
+        >
+          Compile and run
+        </Button>
+
+        <Button variant="contained" endIcon={<UploadFileIcon />} sx={{ mt: 1 }}>
+          Save Code to Lighthouse
+        </Button>
+      </div>
     </>
   );
 }

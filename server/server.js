@@ -38,7 +38,7 @@ app.post("/api/exe", async (req, res) => {
   try {
     const { code, input } = req.body;
     const body = {
-      clientId: process.env.JDOODLE_CLIENT_ID ,
+      clientId: process.env.JDOODLE_CLIENT_ID,
       clientSecret: process.env.JDOODLE_CLIENT_SECRET,
       script: code,
       language: "cpp17",
@@ -46,10 +46,9 @@ app.post("/api/exe", async (req, res) => {
       versionIndex: "0",
     };
 
-    axios.post(process.env.JDOODLE_BASEURL, body).then(response=>{
-      res.send(response.data)
-    })
-    
+    axios.post(process.env.JDOODLE_BASEURL, body).then((response) => {
+      res.send(response.data);
+    });
   } catch (error) {
     console.log("error", error);
   }
@@ -93,6 +92,11 @@ io.on("connection", (socket) => {
       const canvas = await findOrCreateCanvas(meetingId);
       socket.emit("load-canvas", canvas.data);
     });
+
+    socket.on("save-canvas", async (data) => {
+      //save Canvas to lighthouse storage
+      console.log(socket.id, "save-canvas");
+    });
   });
 });
 
@@ -109,4 +113,9 @@ async function findOrCreateCanvas(id) {
   const canvas = await Canvas.findById(id);
   if (canvas) return canvas;
   return await Canvas.create({ _id: id, data: "" });
+}
+
+async function findOrCreateFile(id) {
+  //save file to lighthouse storage
+  if (id == null) return;
 }

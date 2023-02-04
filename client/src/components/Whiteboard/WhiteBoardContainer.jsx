@@ -1,6 +1,7 @@
 import "./WhiteBoardContainer.scss";
 import React from "react";
 import Board from "./Board";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 class Container extends React.Component {
   constructor(props) {
@@ -62,6 +63,16 @@ class Container extends React.Component {
               documentId={this.props.documentId}
               meetingId={this.props.meetingId}
             ></Board>
+          </div>
+
+          <div className="container flex gap-10">
+            <Button
+              variant="contained"
+              endIcon={<UploadFileIcon />}
+              sx={{ mt: 1 }}
+            >
+              Save Whiteboard to Lighthouse
+            </Button>
           </div>
         </div>
       </div>
