@@ -44,12 +44,10 @@ const Navbar = () => {
           }
           setIsLoggedin(true);
           setDefaultAccount(result[0]);
+          const generator = new AvatarGenerator();
           localStorage.setItem("defaultAccount", JSON.stringify(result[0]));
           localStorage.setItem("userBalance", JSON.stringify(result[0]));
-
-          const generator = new AvatarGenerator();
-
-          setAvatar(generator.generateRandomAvatar(`${result[0]}`));
+          setAvatar(generator.generateRandomAvatar());
         })
         .catch((error) => {
           // setErrorMessage(error.message);
@@ -131,6 +129,11 @@ const Navbar = () => {
                 <a href="/dashboard" className="justify-between">
                   Dashboard
                   {/* <span className="badge">New</span> */}
+                </a>
+              </li>
+              <li>
+                <a className="justify-between">
+                  My Meetings
                 </a>
               </li>
               <li onClick={logout}>

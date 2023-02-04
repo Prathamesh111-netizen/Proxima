@@ -1,8 +1,12 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
+const morgan = require("morgan");
+const Code = require("./models/Code.model");
 const Document = require("./models/Document.model");
 const Canvas = require("./models/Canvas.model");
-const axios = require("axios");
+
+const compileRoutes = require("./routes/compile.routes");
+const meetingRoutes =   require("./routes/meeting.routes");
 const fs = require("fs");
 const lighthouse = require("@lighthouse-web3/sdk");
 
@@ -32,11 +36,25 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage, preservePath: true });
 
-mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// connect to the mongoDB collection
+const connectDB = () => {
+  mongoose.set("strictQuery", false);
+	mongoose
+		.connect(process.env.MONGO_URL, {
+			useUnifiedTopology: true,
+			useNewUrlParser: true,
+		})
+		.then((res) =>
+			console.log(
+				`MongoDB Connected: ${res.connection.host}`)
+		)
+		.catch((err) => {
+			console.error(`Error: ${err.message}`);
+			process.exit(1);
+		});
+};
+
+connectDB();
 
 const express = require("express");
 const cors = require("cors");
@@ -56,6 +74,12 @@ const server = app.listen(3001, () => {
   console.log(`listening on *:3001`);
 });
 
+app.use(morgan("dev"));
+app.use("/api/compile", compileRoutes);
+app.use("/api/meeting", meetingRoutes);
+
+app.listen(3001, () => {
+  console.log(`listening on *:3001`);
 app.post("/api/exe", async (req, res) => {
   try {
     const { code, input } = req.body;
@@ -102,34 +126,6 @@ app.post("/api/save-code", async (req, res) => {
   }
 });
 
-app.post("/api/upload-file", upload.single("file"), (req, res) => {
-  console.log(req.body);
-  console.log(req.file);
-  uploadFileToLightHouse(req.file.path)
-    .then((response) => {
-      console.log(response);
-      res.json({ message: "Successfully uploaded files" });
-      fs.unlinkSync(req.file.path, (err) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        //file removed
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-      res.json({ message: "Error uploading files" });
-    });
-});
-const io = require("socket.io")(server, {
-  cors: {
-    credentials: true,
-    origin: process.env.FRONTEND_SERVER,
-    transports: ["websocket", "polling"],
-    methods: ["GET", "POST"],
-  },
-});
 io.on("connection", (socket) => {
   socket.on("join-room", async (meetingId) => {
     socket.join(meetingId);
@@ -149,7 +145,7 @@ io.on("connection", (socket) => {
       });
 
       socket.on("save-document", async (data) => {
-        await Document.findByIdAndUpdate(documentId, { data });
+        await Code.findByIdAndUpdate(documentId, { data });
         // find document by id from astra -> get old fileCID -> delete old file from lighthouse storage
         // upload new file to lighthouse -> save new fileCID to astra
       });
@@ -181,9 +177,9 @@ io.on("connection", (socket) => {
 async function findOrCreateDocument(id) {
   if (id == null) return;
 
-  const document = await Document.findById(id);
+  const document = await Code.findById(id);
   if (document) return document;
-  return await Document.create({ _id: id, data: "" });
+  return await Code.create({ _id: id, data: "" });
 }
 
 async function findOrCreateCanvas(id) {

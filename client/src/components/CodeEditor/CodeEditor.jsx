@@ -23,7 +23,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function TextEditor(props) {
+export default function CodeEditor(props) {
   const { meetingId } = props;
   const [socket, setSocket] = useState();
   const [quill, setQuill] = useState();

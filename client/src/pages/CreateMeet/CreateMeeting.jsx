@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/Navbar.jsx";
 import { v4 as uuidv4 } from "uuid";
@@ -8,12 +8,20 @@ import "react-toastify/dist/ReactToastify.css";
 import Waves from "../../components/Waves/waves";
 
 export default function CreateMeeting() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const submit = () => {
     console.log("Meeting Scheduled");
     toast.success("Meeting Scheduled Successfully");
     // navigate("/dashboard");
   };
+
+  useEffect(() => {
+    const defaultAccount = JSON.parse(localStorage.getItem("defaultAccount"));
+    if (defaultAccount) {
+      setIsLoggedin(true);
+      setHostWalletAddress(defaultAccount)
+    }
+  }, []);
 
   return (
     <div>
@@ -45,7 +53,7 @@ export default function CreateMeeting() {
               </label>
               <input
                 type="text"
-                className="border bg-white rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
                 placeholder={uuidv4()}
                 required
               />
@@ -54,7 +62,8 @@ export default function CreateMeeting() {
               </label>
               <input
                 type="text"
-                className="border bg-purple-400 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                placeholder="Enter Host Wallet Address"
               />
               <label className="font-semibold text-sm text-gray-600 pb-1 block">
                 Description
@@ -79,6 +88,7 @@ export default function CreateMeeting() {
                   onClick={() => {
                     submit;
                   }}
+                  disabled={isLoggedin ? false : true}
                 >
                   Start An instant Meeting
                 </button>
