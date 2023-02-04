@@ -3,6 +3,20 @@ const mongoose = require("mongoose");
 const Document = require("./models/Document.model");
 const Canvas = require("./models/Canvas.model");
 const axios = require("axios");
+const fs = require("fs");
+const lighthouse = require("@lighthouse-web3/sdk");
+
+const multer = require("multer");
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage, preservePath: true });
 
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGO_URL, {
@@ -52,6 +66,41 @@ app.post("/api/exe", async (req, res) => {
   } catch (error) {
     console.log("error", error);
   }
+});
+
+const uploadFileToLightHouse = async (ogpath) => {
+  const path = ogpath; //Give path to the file
+  const apiKey = process.env.LIGHTHOUSE_API_KEY; //generate from https://files.lighthouse.storage/ or cli (lighthouse-web3 api-key --new)
+
+  // Both file and folder supported by upload function
+  const response = await lighthouse.upload(path, apiKey);
+
+  // Display response
+  console.log(response);
+  console.log(
+    "Visit at: https://gateway.lighthouse.storage/ipfs/" + response.Hash
+  );
+};
+
+app.post("/api/upload-file", upload.single("file"), (req, res) => {
+  console.log(req.body);
+  console.log(req.file);
+  uploadFileToLightHouse(req.file.path)
+    .then((response) => {
+      console.log(response);
+      res.json({ message: "Successfully uploaded files" });
+      fs.unlinkSync(req.file.path, (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        //file removed
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.json({ message: "Error uploading files" });
+    });
 });
 
 app.listen(3001, () => {

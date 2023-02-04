@@ -5,7 +5,20 @@ const Files = (props) => {
   const [files, setFiles] = React.useState([]);
   const handleFileUpload = (e) => {
     e.preventDefault();
-    // console.log(e.target.fileInput.files[0]);
+    console.log(e.target.fileInput.files[0].name);
+    var formdata = new FormData();
+    formdata.append("file", e.target.fileInput.files[0]);
+
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch("http://localhost:3001/api/upload-file", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
     setFiles([...files, e.target.fileInput.files[0]]);
   };
 
