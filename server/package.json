@@ -12,11 +12,13 @@
   "license": "ISC",
   "dependencies": {
     "@astrajs/collections": "^0.3.4",
+    "@lighthouse-web3/sdk": "^0.1.12",
     "axios": "^1.2.6",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.9.0",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.20",
     "request": "^2.88.2",
     "socket.io": "^4.5.4",

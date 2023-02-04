@@ -10,7 +10,10 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import SendIcon from "@mui/icons-material/Send";
+//import SendIcon from "@mui/icons-material/Send";
+//import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -155,6 +158,21 @@ export default function CodeEditor(props) {
     });
   };
 
+  const handleSave = async () => {
+    const code = quill.getText(0, quill.getLength());
+    await axios
+      .post(`${import.meta.env.VITE_BACKEND_SERVER}/api/save-code`, {
+        code: code,
+      })
+      .then((res) => {
+        // const { data } = res;
+        // console.log(data);
+        // // stdout.setText(data.output);
+        console.log(res);
+        // emit
+      });
+  };
+
   return (
     <>
       <div className="TextEditorcontainer" ref={wrapperRef} />
@@ -178,14 +196,25 @@ export default function CodeEditor(props) {
           </Grid>
         </Grid>
       </Box>
-      <Button
-        variant="contained"
-        endIcon={<SendIcon />}
-        sx={{ mt: 1 }}
-        onClick={compileCode}
-      >
-        Compile and run
-      </Button>
+      <div className="container flex gap-10">
+        <Button
+          variant="contained"
+          endIcon={<PlayArrowIcon />}
+          sx={{ mt: 1 }}
+          onClick={compileCode}
+        >
+          Compile and run
+        </Button>
+
+        <Button
+          variant="contained"
+          endIcon={<UploadFileIcon />}
+          sx={{ mt: 1 }}
+          onClick={handleSave}
+        >
+          Save Code to Lighthouse
+        </Button>
+      </div>
     </>
   );
 }
