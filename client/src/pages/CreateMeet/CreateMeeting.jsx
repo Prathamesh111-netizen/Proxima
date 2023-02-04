@@ -9,8 +9,6 @@ import Waves from "../../components/Waves/waves";
 
 export default function CreateMeeting() {
   const navigate = useNavigate();
-  const [isLoggedin, setIsLoggedin] = useState(false);
-  const [hostWalletAddress, setHostWalletAddress] = useState("");
   const submit = () => {
     console.log("Meeting Scheduled");
     toast.success("Meeting Scheduled Successfully");
@@ -41,14 +39,23 @@ export default function CreateMeeting() {
               </label>
               <input
                 type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="border bg-white rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
               />
               <label className="font-semibold text-sm text-gray-600 pb-1 block">
                 Date & Time
               </label>
               <input
                 type="datetime-local"
+                className="border bg-purple-400 text-black rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+              />
+              <label className="font-semibold text-sm text-gray-600 pb-1 block">
+                Meeting Code
+              </label>
+              <input
+                type="text"
                 className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                placeholder={uuidv4()}
+                required
               />
               <label className="font-semibold text-sm text-gray-600 pb-1 block">
                 Enter Host Wallet Address *
@@ -56,16 +63,14 @@ export default function CreateMeeting() {
               <input
                 type="text"
                 className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                placeholder="Host Wallet Address"
-                value={hostWalletAddress}
-                disabled
+                placeholder="Enter Host Wallet Address"
               />
               <label className="font-semibold text-sm text-gray-600 pb-1 block">
                 Description
               </label>
               <input
                 type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="border bg-white rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
               />
             </div>
             <div className="flex w-full items-center justify-center bg-gray-100 gap-2">

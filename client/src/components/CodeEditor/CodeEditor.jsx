@@ -144,7 +144,7 @@ export default function CodeEditor(props) {
     console.log(input);
     const body = {
       code: code,
-      input : input
+      input: input,
     };
     await axios.post(import.meta.env.VITE_COMPILER_PATH, body).then((res) => {
       const { data } = res;

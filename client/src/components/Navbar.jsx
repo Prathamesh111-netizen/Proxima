@@ -17,15 +17,19 @@ const Navbar = () => {
     navigate("/create");
   };
 
-  const [errorMessage, setErrorMessage] = useState(null);
+  // const [errorMessage, setErrorMessage] = useState(null);
   const [defaultAccount, setDefaultAccount] = useState(null);
-  const [userBalance, setUserBalance] = useState(null);
-  const [connButtonText, setConnButtonText] = useState("Connect Wallet");
+  // const [userBalance, setUserBalance] = useState(null);
+  // const [connButtonText, setConnButtonText] = useState("Connect Wallet");
   const [provider, setProvider] = useState(null);
   const [avatar, setAvatar] = useState(null);
 
-  const connectWalletHandler = () => {
-    if (window.ethereum && defaultAccount == null) {
+  const connectWalletHandler = (isClicked) => {
+    if (
+      window.ethereum != null &&
+      window.ethereum.isMetaMask === true &&
+      window.ethereum.isConnected() === true
+    ) {
       // set ethers provider
       setProvider(new ethers.providers.Web3Provider(window.ethereum));
 
@@ -34,8 +38,10 @@ const Navbar = () => {
         .request({ method: "eth_requestAccounts" })
         .then((result) => {
           console.log(result);
-          setConnButtonText("Wallet Connected");
-          toast.success("Wallet Connected");
+          // setConnButtonText("Wallet Connected");
+          if (isClicked) {
+            toast.success("Wallet Connected");
+          }
           setIsLoggedin(true);
           setDefaultAccount(result[0]);
           const generator = new AvatarGenerator();
@@ -44,11 +50,14 @@ const Navbar = () => {
           setAvatar(generator.generateRandomAvatar());
         })
         .catch((error) => {
-          setErrorMessage(error.message);
+          // setErrorMessage(error.message);
         });
-    } else if (!window.ethereum) {
-      console.log("Need to install MetaMask");
-      setErrorMessage("Please install MetaMask browser extension to interact");
+    } else {
+      console.log("Need to install MetaMask and enable it on this tab");
+      toast.error(
+        "Please install MetaMask browser extension and enable it on this tab to interact "
+      );
+      // setErrorMessage("Please install MetaMask browser extension to interact");
     }
   };
 
@@ -56,30 +65,33 @@ const Navbar = () => {
     localStorage.removeItem("defaultAccount");
     localStorage.removeItem("userBalance");
     setDefaultAccount(null);
-    setUserBalance(null);
+    // setUserBalance(null);
     setIsLoggedin(false);
-    setConnButtonText("Connect Wallet");
+    // setConnButtonText("Connect Wallet");
     toast("Logged Out");
+    window.location.reload();
   };
 
-  useEffect(() => {
-    if (provider && defaultAccount) {
-      provider.getBalance(defaultAccount).then((balanceResult) => {
-        setUserBalance(ethers.utils.formatEther(balanceResult));
-      });
-    }
-  }, [defaultAccount]);
+  // useEffect(() => {
+  //   if (defaultAccount) {
+  //     connectWalletHandler();
+  //     provider.getBalance(defaultAccount).then((balanceResult) => {
+  //       setUserBalance(ethers.utils.formatEther(balanceResult));
+  //     });
+  //   }
+  // }, [defaultAccount]);
 
   useEffect(() => {
     const defaultAccount = JSON.parse(localStorage.getItem("defaultAccount"));
-    const userBalance = JSON.parse(localStorage.getItem("userBalance"));
-    if (defaultAccount) {
+    if (defaultAccount && window.ethereum.selectedAddress === defaultAccount) {
+      connectWalletHandler();
       setDefaultAccount(defaultAccount);
-      setUserBalance(userBalance);
       setIsLoggedin(true);
-      setConnButtonText("Wallet Connected");
+
       const generator = new AvatarGenerator();
-      setAvatar(generator.generateRandomAvatar());
+      setAvatar(generator.generateRandomAvatar("" + defaultAccount));
+    } else {
+      setIsLoggedin(false);
     }
   }, []);
 
@@ -93,7 +105,10 @@ const Navbar = () => {
       <div className="flex-none">
         {!isLoggedin && (
           <div className="dropdown dropdown-end flex gap-3">
-            <button className="justify-between" onClick={connectWalletHandler}>
+            <button
+              className="justify-between"
+              onClick={() => connectWalletHandler(true)}
+            >
               Connect Now
             </button>
           </div>
@@ -111,9 +126,9 @@ const Navbar = () => {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a className="justify-between">
+                <a href="/dashboard" className="justify-between">
                   Dashboard
-                  <span className="badge">New</span>
+                  {/* <span className="badge">New</span> */}
                 </a>
               </li>
               <li>
