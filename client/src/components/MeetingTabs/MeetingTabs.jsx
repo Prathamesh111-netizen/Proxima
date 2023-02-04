@@ -4,9 +4,10 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 import CodeEditor from "../CodeEditor/CodeEditor";
 import WhiteBoardContainer from "../Whiteboard/WhiteBoardContainer";
+import Files from "../Files/Files";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -75,8 +76,6 @@ const AntTab = styled((props) => <Tab disableRipple {...props} />)(
   })
 );
 
- 
-
 export default function BasicTabs(props) {
   const [value, setValue] = React.useState(0);
 
@@ -85,22 +84,29 @@ export default function BasicTabs(props) {
   };
 
   return (
-    <Box className = "MeetingTabspage" sx={{ width: "100%" }}>
+    <Box className="MeetingTabspage" sx={{ width: "100%" }}>
       <Box>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example">
-          <AntTab label="Code Editor"/>
+          <AntTab label="Code Editor" />
           <AntTab label="White Board" />
           <AntTab label="Share Screen" />
+          <AntTab label="Files" />
         </AntTabs>
       </Box>
       <TabPanel value={value} index={0}>
         <CodeEditor documentId={props.meetingId} meetingId={props.meetingId} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <WhiteBoardContainer documentId={props.meetingId} meetingId={props.meetingId}/>
+        <WhiteBoardContainer
+          documentId={props.meetingId}
+          meetingId={props.meetingId}
+        />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <Files meetingId={props.meetingId} />
       </TabPanel>
     </Box>
   );

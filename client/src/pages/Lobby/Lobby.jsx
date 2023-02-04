@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
 import Webcam from "react-webcam";
-import Waves from "../../components/Waves/waves"
+import Waves from "../../components/Waves/waves";
 
 export default function Lobby() {
   const videoConstraints = {
@@ -24,43 +24,63 @@ export default function Lobby() {
             // console.log(imageSrc);
           }}
         >
-          enableMic
+          Enable Mic
         </button>
       )}
     </Webcam>
   );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log(e.target.meetingId.value);
+    window.location.href = `/meeting/${e.target.meetingId.value}`;
+  };
+  const [isLoggedin, setIsLoggedin] = React.useState(false);
+
+  React.useEffect(() => {
+    // console.log(import.meta.env);
+    if (
+      localStorage.getItem("defaultAccount") &&
+      window.ethereum.selectedAddress
+    ) {
+      setIsLoggedin(true);
+
+      // console.log(sortedMeetings);
+    } else {
+      setIsLoggedin(false);
+    }
+  }, []);
   return (
     <>
-    <Waves/>
+      <Waves />
       <Navbar />
-      <div>
-        <div className="flex flex-col items-center justify-center pt-10 pb-10">
-          <WebcamCapture />
-        </div>
-        {/**Lobby page for meetings React tailwind */}
-        <div className="flex flex-col items-center justify-center h-max">
-          <div className="flex flex-col items-center bg-purple-300 justify-center w-4/5 h-1/2 bg-white rounded-lg shadow-xl">
-            <div className="flex flex-col items-center justify-center w-full h-1/2">
-              <h1 className="text-2xl font-bold">Meeting Title</h1>
-              <p className="text-black">Meeting ID: 1234567890</p>
-            </div>
-
-            <div className="flex flex-col items-center justify-center w-1/2">
-              <h1 className="text-xl font-bold">Host</h1>
-              <p className="text-black">Hosts Name</p>
-            </div>
-            <div className="flex flex-col items-center justify-center w-1/2">
-              <h1 className="text-xl font-bold">Participants</h1>
-              <p className="text-black">Participant Name</p>
+      {isLoggedin ? (
+        <div>
+          <div className="flex flex-col items-center justify-center pt-10 pb-10">
+            <WebcamCapture />
+          </div>
+          {/**Lobby page for meetings React tailwind */}
+          <form id="form" type="submit" onSubmit={handleSubmit}>
+            <div className="flex flex-col items-center justify-center m-3 ">
+              <input
+                type="text"
+                placeholder=" Enter Meeting ID "
+                className="bg-white border border-lg border-purple-600"
+                name="meetingId"
+              />
             </div>
             <div className="flex flex-col items-center justify-center w-full h-1/2">
-              <button className="px-4 py-2 text-white bg-purple-600 rounded-lg">
+              <button
+                className="px-4 py-2 text-white bg-purple-600 rounded-lg"
+                type="submit"
+              >
                 Start Meeting
               </button>
             </div>
-          </div>
+          </form>
         </div>
-      </div>
+      ) : (
+        <div className="container">You are not logged in</div>
+      )}
     </>
   );
 }

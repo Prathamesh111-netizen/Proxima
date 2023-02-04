@@ -15,6 +15,8 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 
+import Navbar from "../../components/Navbar";
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -43,46 +45,48 @@ const Meeting = () => {
   }, []);
 
   return (
-    <div className="MeetingPage">
-      <div className="MeetingPageFullPage">
-        {/* {loading && <LoadingScreen />} */}
-        {!loading && (
-          <div className="MeetingPageComponent">
-            <div>
-              <Box className="MeetingBoxComponent">
-                <Grid container spacing={2}>
-                  <Grid xs={8} className="MeetingGridComponent">
-                    <Item>
-                      <MeetingTabs
-                        documentId={meetingId}
-                        meetingId={meetingId}
-                        className="Meetingtabscomponent"
-                      />
-                    </Item>
+    <>
+      <div className="MeetingPage">
+        <div className="MeetingPageFullPage">
+          {/* {loading && <LoadingScreen />} */}
+          {!loading && (
+            <div className="MeetingPageComponent">
+              <div>
+                <Box className="MeetingBoxComponent">
+                  <Grid container spacing={2}>
+                    <Grid xs={8} className="MeetingGridComponent">
+                      <Item>
+                        <MeetingTabs
+                          documentId={meetingId}
+                          meetingId={meetingId}
+                          className="Meetingtabscomponent"
+                        />
+                      </Item>
+                    </Grid>
+                    <Grid xs={4} className="VideoGridComponent">
+                      <Item>
+                        <MeVideoElem />
+                        <br></br>
+                        <br></br>
+                        <div className="peers-grid">
+                          {peersKeys.map((key) => (
+                            <PeerVideoAudioElem
+                              key={`peerId-${key}`}
+                              peerIdAtIndex={key}
+                            />
+                          ))}
+                        </div>
+                      </Item>
+                    </Grid>
                   </Grid>
-                  <Grid xs={4} className="VideoGridComponent">
-                    <Item>
-                      <MeVideoElem />
-                      <br></br>
-                      <br></br>
-                      <div className="peers-grid">
-                        {peersKeys.map((key) => (
-                          <PeerVideoAudioElem
-                            key={`peerId-${key}`}
-                            peerIdAtIndex={key}
-                          />
-                        ))}
-                      </div>
-                    </Item>
-                  </Grid>
-                </Grid>
-              </Box>
-              <Toolbuttons />
+                </Box>
+                <Toolbuttons />
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

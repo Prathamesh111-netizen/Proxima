@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/Navbar.jsx";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 //Schedule Meeting Page in React tailwind and daisy
-import Waves from "../../components/Waves/waves"
+import Waves from "../../components/Waves/waves";
 
 export default function CreateMeeting() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const submit = () => {
     console.log("Meeting Scheduled");
     toast.success("Meeting Scheduled Successfully");
@@ -17,7 +17,7 @@ export default function CreateMeeting() {
 
   return (
     <div>
-      <Waves/>
+      <Waves />
       <NavBar />
       <div className="bg-gray-50 flex flex-col sm:py-12">
         <div className="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
@@ -31,21 +31,21 @@ export default function CreateMeeting() {
               </label>
               <input
                 type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="border bg-white rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
               />
               <label className="font-semibold text-sm text-gray-600 pb-1 block">
                 Date & Time
               </label>
               <input
                 type="datetime-local"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="border bg-purple-400 text-black rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
               />
               <label className="font-semibold text-sm text-gray-600 pb-1 block">
                 Meeting Code
               </label>
               <input
                 type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="border bg-white rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
                 placeholder={uuidv4()}
                 required
               />
@@ -54,15 +54,14 @@ export default function CreateMeeting() {
               </label>
               <input
                 type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                placeholder="Enter Host Wallet Address"
+                className="border bg-purple-400 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
               />
               <label className="font-semibold text-sm text-gray-600 pb-1 block">
                 Description
               </label>
               <input
                 type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                className="border bg-white rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
               />
             </div>
             <div className="flex w-full items-center justify-center bg-gray-100 gap-2">
