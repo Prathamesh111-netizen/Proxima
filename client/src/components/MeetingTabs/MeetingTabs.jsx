@@ -89,8 +89,9 @@ export default function BasicTabs(props) {
         <AntTabs value={value} onChange={handleChange} aria-label="ant example">
           <AntTab label="Code Editor" />
           <AntTab label="White Board" />
-          <AntTab label="Share Screen" />
+          {/* <AntTab label="Share Screen" /> */}
           <AntTab label="Files" />
+          <AntTab label="Chat" />
         </AntTabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -103,10 +104,10 @@ export default function BasicTabs(props) {
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <Files meetingId={props.meetingId} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <Files meetingId={props.meetingId} />
+        Chat
       </TabPanel>
     </Box>
   );

@@ -74,7 +74,13 @@ const uploadFile = async (req, res, next) => {
         message: "Whiteboard File uploaded successfully",
       });
     }
-
+    if (type==="meetingRecording"){
+      return res.status(200).send({
+        success: true,
+        message: "Meeting Recording File uploaded successfully",
+      });
+    }
+    
     var storage = multer.diskStorage({
       destination: function (req, file, cb) {
         cb(null, "uploads");

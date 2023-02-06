@@ -3,11 +3,12 @@ const morgan = require("morgan");
 
 const Code = require("./models/code.model");
 const Canvas = require("./models/canvas.model");
-
+const axios = require("axios");
 const compileRoutes = require("./routes/compile.routes");
 const meetingRoutes = require("./routes/meeting.routes");
 const fileRoutes = require("./routes/file.routes");
 const { notFound, errorHandler } = require("./middleware/error.middleware");
+
 
 // connect to the mongoDB collection
 const connectDB = require("./config/db");
@@ -109,3 +110,30 @@ app.use(errorHandler);
 app.listen(3001, () => {
   console.log(`listening on *:3001`);
 });
+
+// const convertAudioToText = async (audioUrl) => {
+//   var data = JSON.stringify({
+//     audio_url: audioUrl,
+//   });
+
+//   var config = {
+//     method: "post",
+//     maxBodyLength: Infinity,
+//     url: "https://api.assemblyai.com/v2/transcript",
+//     headers: {
+//       Authorization: "7a6cc2fea38a4815b24b75b64c1ccaee",
+//       "Content-Type": "application/json",
+//     },
+//     data: data,
+//   };
+
+//   axios(config)
+//     .then(function (response) {
+//       console.log(JSON.stringify(response.data));
+//     })
+//     .catch(function (error) {
+//       console.log(error);
+//     });
+// };
+// convertAudioToText("https://bit.ly/3yxKEIY")
+

@@ -150,7 +150,7 @@ const DashboardTable = () => {
                             console.log("Viewing Recording");
                           }}
                         >
-                          < a href ="https://gateway.lighthouse.storage/ipfs/QmSB1bbT2bh5VHdFLFcCmUFRzEiaYMiAa8xWjpL5KjQA1E" target = "_blank">
+                          < a href ="https://gateway.lighthouse.storage/ipfs/QmTeCggQEvLcjuukKd7Hepx3SR61dCDLw3GH5EvWDb5JJD" target = "_blank">
                           View Recording
                           </a>
                         </button>

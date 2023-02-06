@@ -29,6 +29,7 @@ export default function CodeEditor(props) {
   const [quill, setQuill] = useState();
   const [stdin, setStdIn] = useState();
   const [stdout, setStdOut] = useState();
+  const [selectedLang, setSelectedlang] = useState("cpp17");
   useEffect(() => {
     const s = io(import.meta.env.VITE_BACKEND_SERVER);
     setSocket(s);
@@ -96,7 +97,7 @@ export default function CodeEditor(props) {
     const q = new Quill(editor, {
       modules: {
         syntax: true, // Include syntax module
-        toolbar: false, // Include button in toolbar
+        toolbar: [["code-block"]], // Include button in toolbar
       },
       theme: "snow",
     });
@@ -179,9 +180,13 @@ export default function CodeEditor(props) {
       });
   };
 
+  const langOnClick = (lang) => {
+    setSelectedlang(lang);
+  };
+
   return (
     <>
-      <div className="TextEditorcontainer bg-black" ref={wrapperRef} />
+      <div className="TextEditorcontainer" ref={wrapperRef} />
       <Box>
         <Grid container>
           <Grid item xs={6}>
@@ -202,24 +207,54 @@ export default function CodeEditor(props) {
           </Grid>
         </Grid>
       </Box>
-      <div className="container flex gap-10">
-        <Button
-          variant="contained"
-          endIcon={<PlayArrowIcon />}
-          sx={{ mt: 1 }}
-          onClick={compileCode}
-        >
-          Compile and run
-        </Button>
+      <div className="container flex">
+        <div className="dropdown dropdown-hover">
+          <label tabIndex={0} className="btn m-1">
+            {selectedLang}
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <button onClick={()=>langOnClick("cpp17")}>CPP17</button>
+            </li>
+            <li>
+              <button onClick={()=>langOnClick("pyth3")}>PYTH 3</button>
+            </li>
+            <li>
+              <button onClick={()=>langOnClick("c")}>C</button>
+            </li>
+            <li>
+              <button onClick={()=>langOnClick("java")}>JAVA</button>
+            </li>
+            <li>
+              <button onClick={()=>langOnClick("js")}>JS</button>
+            </li>
+            <li>
+              <button onClick={()=>langOnClick("sql")}>SQL</button>
+            </li>
+          </ul>
+        </div>
+        <div className="container flex gap-10">
+          <Button
+            variant="contained"
+            endIcon={<PlayArrowIcon />}
+            sx={{ mt: 1 }}
+            onClick={compileCode}
+          >
+            Compile and run
+          </Button>
 
-        <Button
-          variant="contained"
-          endIcon={<UploadFileIcon />}
-          sx={{ mt: 1 }}
-          onClick={handleSave}
-        >
-          Save Code to Lighthouse
-        </Button>
+          <Button
+            variant="contained"
+            endIcon={<UploadFileIcon />}
+            sx={{ mt: 1 }}
+            onClick={handleSave}
+          >
+            Save Code to Lighthouse
+          </Button>
+        </div>
       </div>
     </>
   );

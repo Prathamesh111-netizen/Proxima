@@ -81,7 +81,7 @@ const Meeting = () => {
                     </Grid>
                   </Grid>
                 </Box>
-                <Toolbuttons />
+                <Toolbuttons meetingId={meetingId}/>
               </div>
             </div>
           )}

@@ -1,5 +1,5 @@
 import "./Toolbuttons.scss";
-import { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import VideocamIcon from "@mui/icons-material/Videocam";
@@ -16,6 +16,11 @@ import { toast } from "react-toastify";
 import Modal from "@mui/material/Modal";
 import { Box } from "@mui/material";
 import CallEnd from "@mui/icons-material/CallEnd";
+import { useReactMediaRecorder } from "react-media-recorder";
+import RecordIcon from "@mui/icons-material/FiberManualRecord";
+import Fab from "@mui/material/Fab";
+import axios from "axios";
+import RecordRTC, { invokeSaveAsDialog } from "recordrtc";
 
 const Modalstyle = {
   position: "absolute",
@@ -29,7 +34,7 @@ const Modalstyle = {
   p: 4,
 };
 
-export default function Toolbuttons() {
+export default function Toolbuttons(props) {
   const roomState = useHuddleStore((state) => state.roomState);
   const [camStatus, setCamStatus] = useState(false);
   const [micStatus, setMicstatus] = useState(false);
@@ -38,6 +43,8 @@ export default function Toolbuttons() {
   const [openModal, setOpenModal] = useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
+  const { status, startRecording, stopRecording, mediaBlobUrl } =
+    useReactMediaRecorder({ video: true });
 
   useEffect(() => {
     console.log(roomState, "inside toolbox");
@@ -84,12 +91,80 @@ export default function Toolbuttons() {
     }
   };
 
+  const [recordMeet, setRecordMeet] = useState(false);
+  const [recordButtonText, setRecordButtonText] = useState("Record Meeting");
+  const [stream, setStream] = useState(null);
+  const [blob, setBlob] = useState(null);
+  const refVideo = useRef(null);
+  const recorderRef = useRef(null);
+
+  const toggleRecordMeet = async () => {
+    if (recordMeet) {
+      setRecordMeet(false);
+      setRecordButtonText("Record Meeting");
+      // stopRecording();
+      recorderRef.current.stopRecording(() => {
+        setBlob(recorderRef.current.getBlob());
+      });
+      console.log(blob);
+    invokeSaveAsDialog(blob);
+      axios
+        .post(`${import.meta.env.VITE_EXPRESS_SERVER}/file/${props.meetingId}`, {
+          file: blob,
+          type : "meetingRecording"
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setRecordMeet(true);
+      setRecordButtonText("Stop Recording");
+      // startRecording();
+      const mediaStream = await navigator.mediaDevices.getDisplayMedia({
+        video: {
+          width: 1920,
+          height: 1080,
+          frameRate: 30,
+        },
+        audio: false,
+      });
+
+      setStream(mediaStream);
+      recorderRef.current = new RecordRTC(mediaStream, { type: "video" });
+      recorderRef.current.startRecording();
+    }
+    
+  };
+
   return (
     <div className="Toolbuttons flex">
-      <div className="RecordMeeting">
-        <a href="google.com" className="btn">
-          Record Meeting
-        </a>
+      {recordMeet && (
+        <Fab
+          style={{
+            backgroundColor: "red",
+            color: "white",
+          }}
+          variant="extended"
+          size="small"
+          aria-label="add"
+        >
+          <RecordIcon sx={{ mr: 1, color: "white" }} />
+          Recording in progress
+        </Fab>
+      )}
+      {/* {blob} */}
+
+      <div className="RecordMeeting flex flex-start">
+        <button
+          href=""
+          className="btn bg-white text-black"
+          onClick={toggleRecordMeet}
+        >
+          {recordButtonText}
+        </button>
       </div>
       <div className="ToolbuttonsMaincomponent">
         {camStatus ? (
@@ -134,7 +209,7 @@ export default function Toolbuttons() {
             <MicOffIcon />
           </IconButton>
         )}
-        <IconButton
+        {/* <IconButton
           aria-label={
             screenShareStatus ? "Stop Screen Share" : "Share your Screen"
           }
@@ -144,7 +219,7 @@ export default function Toolbuttons() {
           sx={{ color: "white" }}
         >
           <ScreenShareIcon />
-        </IconButton>
+        </IconButton> */}
         <IconButton
           aria-label={chatStatus ? "Hide Chat" : "Show Chat"}
           size="small"
@@ -189,6 +264,7 @@ export default function Toolbuttons() {
           <CallEnd />
         </IconButton>
       </div>
+      {/* <video src={mediaBlobUrl} controls autoPlay loop /> */}
     </div>
   );
 }
