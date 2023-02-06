@@ -19,7 +19,7 @@ const Navbar = () => {
 
   // const [errorMessage, setErrorMessage] = useState(null);
   const [defaultAccount, setDefaultAccount] = useState(null);
-  // const [userBalance, setUserBalance] = useState(null);
+  const [userBalance, setUserBalance] = useState(null);
   // const [connButtonText, setConnButtonText] = useState("Connect Wallet");
   const [provider, setProvider] = useState(null);
   const [avatar, setAvatar] = useState(null);
@@ -62,24 +62,16 @@ const Navbar = () => {
   };
 
   const logout = () => {
+    toast("Logged Out");
     localStorage.removeItem("defaultAccount");
     localStorage.removeItem("userBalance");
     setDefaultAccount(null);
-    // setUserBalance(null);
+    setUserBalance(null);
     setIsLoggedin(false);
-    // setConnButtonText("Connect Wallet");
-    toast("Logged Out");
-    window.location.reload();
+    setConnButtonText("Connect Wallet");
+    // window.location.reload();
   };
 
-  // useEffect(() => {
-  //   if (defaultAccount) {
-  //     connectWalletHandler();
-  //     provider.getBalance(defaultAccount).then((balanceResult) => {
-  //       setUserBalance(ethers.utils.formatEther(balanceResult));
-  //     });
-  //   }
-  // }, [defaultAccount]);
 
   useEffect(() => {
     const defaultAccount = JSON.parse(localStorage.getItem("defaultAccount"));
@@ -128,12 +120,11 @@ const Navbar = () => {
               <li>
                 <a href="/dashboard" className="justify-between">
                   Dashboard
-                  {/* <span className="badge">New</span> */}
                 </a>
               </li>
               <li>
-                <a className="justify-between">
-                  My Meetings
+                <a href="/scheduled-meetings" className="justify-between">
+                  Scheduled Meetings
                 </a>
               </li>
               <li onClick={logout}>

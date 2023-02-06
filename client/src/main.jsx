@@ -14,6 +14,7 @@ import JoinMeeting from "./pages/Join/JoinMeeting.jsx";
 import CreateMeeting from "./pages/CreateMeet/CreateMeeting.jsx";
 import Meeting from "./pages/MeetingPage/Meeting";
 import Lobby from "./pages/Lobby/Lobby";
+import SchedueledMeetings from "./pages/ScheduledMeetings/ScheduledMeetings.jsx"
 import { ToastContainer } from "react-toastify";
 
 const router = createBrowserRouter(
@@ -26,7 +27,7 @@ const router = createBrowserRouter(
         element={<Meeting />}
         errorElement={<LandingPage />}
       />
-      <Route path="my-meetings" element={<CreateMeeting />} />
+      <Route path="scheduled-meetings" element={<SchedueledMeetings />} />
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="lobby" element={<Lobby />} />
       <Route path="" element={<LandingPage />} />

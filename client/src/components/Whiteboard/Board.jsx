@@ -1,6 +1,10 @@
 import "./Board.scss";
 import React from "react";
 import io from "socket.io-client";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import Button from "@mui/material/Button";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 class Board extends React.Component {
   timeout;
@@ -121,13 +125,44 @@ class Board extends React.Component {
     };
   }
 
+  saveBoardonLighthouse() {
+    var canvas = document.querySelector("#board");
+    var base64ImageData = canvas.toDataURL("image/png");
+
+    this.socket.emit("canvas-data", base64ImageData);
+    axios
+      .post(
+        `${import.meta.env.VITE_EXPRESS_SERVER}/file/${this.props.meetingId}`,
+        { whiteboard : base64ImageData, type : "whiteboard"}
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error Uploading File");
+      });
+  }
+
   render() {
     return (
-      <div className="boardcomponent">
-        <div class="sketch" id="sketch">
-          <canvas className="board" id="board"></canvas>
+      <>
+        <div className="boardcomponent">
+          <div class="sketch" id="sketch">
+            <canvas className="board" id="board"></canvas>
+          </div>
         </div>
-      </div>
+        <div className="container flex gap-10">
+          <Button
+            variant="contained"
+            endIcon={<UploadFileIcon />}
+            sx={{ mt: 1 }}
+            onClick={() => this.saveBoardonLighthouse()}
+          >
+            Save Whiteboard to Lighthouse
+          </Button>
+        </div>
+      </>
     );
   }
 }

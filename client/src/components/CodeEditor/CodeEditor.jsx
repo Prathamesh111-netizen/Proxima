@@ -160,16 +160,17 @@ export default function CodeEditor(props) {
 
   const handleSave = async () => {
     const code = quill.getText(0, quill.getLength());
-    await axios
-      .post(`${import.meta.env.VITE_BACKEND_SERVER}/api/save-code`, {
+    axios
+      .post(`${import.meta.env.VITE_EXPRESS_SERVER}/file/uploadcode/${props.meetingId}`, {
+        type : "code",
         code: code,
       })
-      .then((res) => {
-        // const { data } = res;
-        // console.log(data);
-        // // stdout.setText(data.output);
-        console.log(res);
-        // emit
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error Uploading File");
       });
   };
 

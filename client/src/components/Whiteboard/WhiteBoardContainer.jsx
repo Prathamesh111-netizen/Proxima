@@ -10,7 +10,7 @@ class Container extends React.Component {
     console.log("Props", props);
 
     this.state = {
-      color: "#000000",
+      color: "#ffffff",
       size: "5",
     };
   }
@@ -42,13 +42,14 @@ class Container extends React.Component {
                 />
               </div>
 
-              <div className="brushsize-container">
+              <div className="color-picker-container" >
                 Select Brush Size : &nbsp;
                 <select
                   value={this.state.size}
                   onChange={this.changeSize.bind(this)}
+                  className="brushsize-container"
                 >
-                  <option> 5 </option>
+                  <option > 5 </option>
                   <option> 10 </option>
                   <option> 15 </option>
                   <option> 20 </option>
@@ -69,15 +70,7 @@ class Container extends React.Component {
           </div>
         </div>
 
-        <div className="container flex gap-10">
-          <Button
-            variant="contained"
-            endIcon={<UploadFileIcon />}
-            sx={{ mt: 1 }}
-          >
-            Save Whiteboard to Lighthouse
-          </Button>
-        </div>
+        
       </>
     );
   }

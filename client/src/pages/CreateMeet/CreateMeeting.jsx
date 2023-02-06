@@ -1,15 +1,52 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/Navbar.jsx";
-import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-//Schedule Meeting Page in React tailwind and daisy
 import Waves from "../../components/Waves/waves";
+4;
+
+import axios from "axios";
 
 export default function CreateMeeting() {
+  const [isLoggedin, setIsLoggedin] = useState(false);
+  const [hostWalletAddress, setHostWalletAddress] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+
   const navigate = useNavigate();
-  const submit = () => {
+
+  const ScheduleMeeting = () => {
+    const data = {
+      title: title,
+      description: description,
+      startTime: startTime,
+      endTime: endTime,
+      hostWalletAddress: hostWalletAddress,
+    };
+
+    axios
+      .post(`${import.meta.env.VITE_EXPRESS_SERVER}/meeting`, data)
+      .then((res) => {
+        console.log(res.data);
+        console.log("Meeting Scheduled");
+        toast.success("Meeting Scheduled Successfully");
+        setTitle("");
+        setDescription("");
+        setStartTime("");
+        setEndTime("");
+        // navigate("/dashboard");
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Meeting Scheduled");
+        toast.error("Error Occured");
+      });
+  };
+
+  const startMeeting = () => {
     console.log("Meeting Scheduled");
     toast.success("Meeting Scheduled Successfully");
     // navigate("/dashboard");
@@ -19,7 +56,7 @@ export default function CreateMeeting() {
     const defaultAccount = JSON.parse(localStorage.getItem("defaultAccount"));
     if (defaultAccount) {
       setIsLoggedin(true);
-      setHostWalletAddress(defaultAccount)
+      setHostWalletAddress(defaultAccount);
     }
   }, []);
 
@@ -40,30 +77,8 @@ export default function CreateMeeting() {
               <input
                 type="text"
                 className="border bg-white rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-              />
-              <label className="font-semibold text-sm text-gray-600 pb-1 block">
-                Date & Time
-              </label>
-              <input
-                type="datetime-local"
-                className="border bg-purple-400 text-black rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-              />
-              <label className="font-semibold text-sm text-gray-600 pb-1 block">
-                Meeting Code
-              </label>
-              <input
-                type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                placeholder={uuidv4()}
-                required
-              />
-              <label className="font-semibold text-sm text-gray-600 pb-1 block">
-                Enter Host Wallet Address *
-              </label>
-              <input
-                type="text"
-                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
-                placeholder="Enter Host Wallet Address"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <label className="font-semibold text-sm text-gray-600 pb-1 block">
                 Description
@@ -71,13 +86,44 @@ export default function CreateMeeting() {
               <input
                 type="text"
                 className="border bg-white rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+
+              <label className="font-semibold text-sm text-gray-600 pb-1 block">
+                Start Time
+              </label>
+              <input
+                type="datetime-local"
+                className="border bg-purple-400 text-black rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+              />
+              <label className="font-semibold text-sm text-gray-600 pb-1 block">
+                End Time
+              </label>
+              <input
+                type="datetime-local"
+                className="border bg-purple-400 text-black rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+              />
+              <label className="font-semibold text-sm text-gray-600 pb-1 block">
+                Host Wallet Address*
+              </label>
+              <input
+                type="text"
+                className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                placeholder="Enter Host Wallet Address"
+                disabled
+                value={hostWalletAddress}
               />
             </div>
             <div className="flex w-full items-center justify-center bg-gray-100 gap-2">
               <div className="flex items-center justify-center py-4 bg-gray-100 rounded-b-lg">
                 <button
                   className="bg-purple-600 text-white px-4 py-3 rounded-xl font-medium text-sm"
-                  onClick={submit}
+                  onClick={ScheduleMeeting}
                 >
                   Schedule
                 </button>
@@ -85,9 +131,7 @@ export default function CreateMeeting() {
               <div className="flex items-center justify-center py-4 bg-gray-100 rounded-b-lg">
                 <button
                   className="bg-purple-600 text-white px-4 py-3 rounded-xl font-medium text-sm"
-                  onClick={() => {
-                    submit;
-                  }}
+                  onClick={startMeeting}
                   disabled={isLoggedin ? false : true}
                 >
                   Start An instant Meeting
@@ -143,9 +187,3 @@ export default function CreateMeeting() {
     </div>
   );
 }
-
-// export default function CreateMeeting() {
-//   const navigate = useNavigate();
-
-//   return <div></div>;
-// }

@@ -39,6 +39,7 @@ const Meeting = () => {
         wallet: "",
         ens: "axit.eth",
       });
+      huddleClient.disableWebcam();
       console.log("ROOM-STATE", roomState);
       setLoading(false);
     }, 3000);
