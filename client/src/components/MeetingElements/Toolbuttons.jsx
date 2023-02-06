@@ -85,7 +85,12 @@ export default function Toolbuttons() {
   };
 
   return (
-    <div className="Toolbuttons">
+    <div className="Toolbuttons flex">
+      <div className="RecordMeeting">
+        <a href="google.com" className="btn">
+          Record Meeting
+        </a>
+      </div>
       <div className="ToolbuttonsMaincomponent">
         {camStatus ? (
           <IconButton

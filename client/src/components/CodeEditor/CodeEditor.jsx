@@ -161,10 +161,15 @@ export default function CodeEditor(props) {
   const handleSave = async () => {
     const code = quill.getText(0, quill.getLength());
     axios
-      .post(`${import.meta.env.VITE_EXPRESS_SERVER}/file/uploadcode/${props.meetingId}`, {
-        type : "code",
-        code: code,
-      })
+      .post(
+        `${import.meta.env.VITE_EXPRESS_SERVER}/file/uploadcode/${
+          props.meetingId
+        }`,
+        {
+          type: "code",
+          code: code,
+        }
+      )
       .then((response) => {
         console.log(response);
       })
@@ -176,7 +181,7 @@ export default function CodeEditor(props) {
 
   return (
     <>
-      <div className="TextEditorcontainer" ref={wrapperRef} />
+      <div className="TextEditorcontainer bg-black" ref={wrapperRef} />
       <Box>
         <Grid container>
           <Grid item xs={6}>
