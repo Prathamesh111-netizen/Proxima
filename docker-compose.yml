@@ -5,40 +5,38 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    image: 0xkid-server
-    container_name: 0xkid-server
+    image: 0xkidserver
+    container_name: 0xkidserver
     command: npm start
     volumes:
-      - ./server/:/usr/src/app
+      - ./0xkidserver/:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - "3000:3000"
       - "3001:3001"
-    env_file: ./server/.env
     environment:
       - NODE_ENV=development
     networks:
-      - app-network
+      - 0xkid-network
   client:
     build:
       context: ./client
       dockerfile: Dockerfile
-    image: 0xkid-client
-    container_name: 0xkid-client
+    image: 0xkidclient
+    container_name: 0xkidclient
     command: npm run dev
     volumes:
-      - ./client/:/usr/app
+      - ./0xkidclient/:/usr/app
       - /usr/app/node_modules
     depends_on:
       - server
     ports:
       - "5173:5173"
-    env_file: ./client/.env
     networks:
-      - app-network
+      - 0xkid-network
 
 networks:
-    app-network:
+    0xkid-network:
         driver: bridge
 
 volumes:

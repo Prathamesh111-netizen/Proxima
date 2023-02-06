@@ -15,10 +15,10 @@ const connectDB = require("./config/db");
 connectDB();
 
 // IO server
-const io = require("socket.io")(process.env.PORT, {
+const io = require("socket.io")(process.env.IO_PORT, {
   cors: {
     credentials: true,
-    origin: process.env.FRONTEND_SERVER,
+    origin: process.env.OXKID_FRONTEND_SERVER,
     transports: ["websocket", "polling"],
     methods: ["GET", "POST"],
   },
@@ -92,7 +92,7 @@ app.use(express.json({ limit: "5mb" }));
 app.use(
   cors({
     credentials: true,
-    origin: process.env.FRONTEND_SERVER,
+    origin: process.env.OXKID_FRONTEND_SERVER,
     transports: ["websocket", "polling"],
     methods: ["GET", "POST"],
     allowEIO3: true,
