@@ -2,11 +2,11 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const Code = require("./models/Code.model");
-const Document = require("./models/Document.model");
+// const Document = require("./models/Document.model");
 const Canvas = require("./models/Canvas.model");
 
 const compileRoutes = require("./routes/compile.routes");
-const meetingRoutes =   require("./routes/meeting.routes");
+const meetingRoutes = require("./routes/meeting.routes");
 const fs = require("fs");
 const lighthouse = require("@lighthouse-web3/sdk");
 
@@ -20,7 +20,7 @@ const uploadFileToLightHouse = async (ogpath) => {
   // Display response
   console.log(response);
   console.log(
-    "Visit at: https://gateway.lighthouse.storage/ipfs/" + response.Hash
+    "Visit at: https://gateway.lighthouse.storage/ipfs/" + response.data.Hash
   );
 };
 
@@ -39,22 +39,28 @@ const upload = multer({ storage: storage, preservePath: true });
 // connect to the mongoDB collection
 const connectDB = () => {
   mongoose.set("strictQuery", false);
-	mongoose
-		.connect(process.env.MONGO_URL, {
-			useUnifiedTopology: true,
-			useNewUrlParser: true,
-		})
-		.then((res) =>
-			console.log(
-				`MongoDB Connected: ${res.connection.host}`)
-		)
-		.catch((err) => {
-			console.error(`Error: ${err.message}`);
-			process.exit(1);
-		});
+  mongoose
+    .connect(process.env.MONGO_URL, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    })
+    .then((res) => console.log(`MongoDB Connected: ${res.connection.host}`))
+    .catch((err) => {
+      console.error(`Error: ${err.message}`);
+      process.exit(1);
+    });
 };
 
 connectDB();
+
+const io = require("socket.io")(process.env.PORT, {
+  cors: {
+    credentials: true,
+    origin: process.env.FRONTEND_SERVER,
+    transports: ["websocket", "polling"],
+    methods: ["GET", "POST"],
+  },
+});
 
 const express = require("express");
 const cors = require("cors");
@@ -78,8 +84,9 @@ app.use(morgan("dev"));
 app.use("/api/compile", compileRoutes);
 app.use("/api/meeting", meetingRoutes);
 
-app.listen(3001, () => {
-  console.log(`listening on *:3001`);
+// app.listen(3001, () => {
+//   console.log(`listening on *:3001`);
+// });
 app.post("/api/exe", async (req, res) => {
   try {
     const { code, input } = req.body;
@@ -124,6 +131,52 @@ app.post("/api/save-code", async (req, res) => {
   } catch (error) {
     console.log("error", error);
   }
+});
+
+app.post("/api/upload-file", upload.single("file"), (req, res) => {
+  console.log(req.body);
+  console.log(req.file);
+  uploadFileToLightHouse(req.file.path)
+    .then((response) => {
+      console.log(response);
+      res.json({ message: "Successfully uploaded files" });
+      fs.unlinkSync(req.file.path, (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        //file removed
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.json({ message: "Error uploading files" });
+    });
+});
+
+/**
+ * When Uploaded to lighthouse storage the response is like this
+ *  {
+  data: {
+    Name: 'Assignment-1  DT Signal.pdf',
+    Hash: 'QmTAteg3KJdRaDRWM7jfHG4bbf4ZGafL8ZFuDBkVjsjiEk',
+    Size: '281685'
+  }
+}
+Visit at: https://gateway.lighthouse.storage/ipfs/QmTAteg3KJdRaDRWM7jfHG4bbf4ZGafL8ZFuDBkVjsjiEk to view the file
+ */
+
+app.get("api/get-file-links", (req, res) => {
+  console.log(req.query.id);
+  //Return array of links based on req.query.id
+  //req.query.id is the meeting id
+  // const links = [
+  //   "https://gateway.lighthouse.storage/ipfs/QmTAteg3KJdRaDRWM7jfHG4bbf4ZGafL8ZFuDBkVjsjiEk",
+  //   "https://gateway.lighthouse.storage/ipfs/QmTAteg3KJdRaDRWM7jfHG4bbf4ZGafL8ZFuDBkVjsjiEk",
+  //   "https://gateway.lighthouse.storage/ipfs/QmTAteg3KJdRaDRWM7jfHG4bbf4ZGafL8ZFuDBkVjsjiEk",
+  // ];
+  // res.json({ links:links });
+  res.json({ message: "Not implemented yet" });
 });
 
 io.on("connection", (socket) => {
