@@ -150,7 +150,9 @@ const DashboardTable = () => {
                             console.log("Viewing Recording");
                           }}
                         >
+                          < a href ="https://gateway.lighthouse.storage/ipfs/QmSB1bbT2bh5VHdFLFcCmUFRzEiaYMiAa8xWjpL5KjQA1E" target = "_blank">
                           View Recording
+                          </a>
                         </button>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
