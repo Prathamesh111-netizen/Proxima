@@ -39,7 +39,6 @@ const Meeting = () => {
         wallet: "",
         ens: "axit.eth",
       });
-      huddleClient.disableWebcam();
       console.log("ROOM-STATE", roomState);
       setLoading(false);
     }, 3000);
@@ -92,12 +91,3 @@ const Meeting = () => {
 };
 
 export default Meeting;
-// {/* <Whiteboard documentId={meetingId} meetingId={meetingId}/> */}
-//           {/* <button onClick={() => huddleClient.enableWebcam()}>
-//             Enable Webcam
-//           </button>
-//           <button onClick={() => huddleClient.disableWebcam()}>
-//             Disable Webcam
-//           </button>
-
-//           <ScreenRecorder /> */}

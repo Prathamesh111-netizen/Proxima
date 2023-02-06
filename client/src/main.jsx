@@ -14,7 +14,7 @@ import JoinMeeting from "./pages/Join/JoinMeeting.jsx";
 import CreateMeeting from "./pages/CreateMeet/CreateMeeting.jsx";
 import Meeting from "./pages/MeetingPage/Meeting";
 import Lobby from "./pages/Lobby/Lobby";
-import SchedueledMeetings from "./pages/ScheduledMeetings/ScheduledMeetings.jsx"
+import SchedueledMeetings from "./pages/scheduledMeetings/scheduledMeetings.jsx"
 import { ToastContainer } from "react-toastify";
 
 const router = createBrowserRouter(

@@ -1,8 +1,0 @@
-{
-  "type": "module",
-  "dependencies": {
-    "@pushprotocol/restapi": "^0.3.0",
-    "dotenv": "^16.0.3",
-    "ethers": "^5.7.2"
-  }
-}
