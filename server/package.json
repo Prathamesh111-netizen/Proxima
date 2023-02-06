@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@astrajs/collections": "^0.3.4",
     "@lighthouse-web3/sdk": "^0.1.12",
     "axios": "^1.2.6",
     "dotenv": "^16.0.3",
