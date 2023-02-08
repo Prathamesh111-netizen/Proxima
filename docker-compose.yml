@@ -1,44 +1,42 @@
 version: '3.7'
 
 services:
-  server:
+  server0xkid:
     build:
       context: ./server
       dockerfile: Dockerfile
-    image: 0xkidserver
-    container_name: 0xkidserver
+    image: server0xkid
+    container_name: server0xkid
     command: npm start
     volumes:
-      - ./0xkidserver/:/usr/src/app
+      - ./server0xkid/:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - "3000:3000"
       - "3001:3001"
     environment:
       - NODE_ENV=development
-      - PORT="${PORT}"
-      - MONGO_URI="${MONGO_URI}"
     networks:
-      - 0xkid-network
-  client:
+      - network0xkid
+  client0xkid:
     build:
       context: ./client
       dockerfile: Dockerfile
-    image: 0xkidclient
-    container_name: 0xkidclient
+    image: client0xkid
+    container_name: client0xkid
     command: npm run dev
     volumes:
-      - ./0xkidclient/:/usr/app
+      - ./client0xkid/:/usr/app
       - /usr/app/node_modules
     depends_on:
-      - server
+      - server0xkid
     ports:
       - "5173:5173"
     networks:
-      - 0xkid-network
+      - network0xkid
 
 networks:
-    0xkid-network:
+    network0xkid:
         driver: bridge
 
 volumes:

@@ -139,7 +139,7 @@ const DashboardTable = () => {
                         <button
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         >
-                          <a href="https://gateway.lighthouse.storage/ipfs/QmSB4U3F5xr5fGhJtJ9jbDnYgj5EPwTwhk896StuojvtUh" target = "_blank">View Transcript</a>
+                          <a href="https://gateway.lighthouse.storage/ipfs/QmZsepQLX3q5huAS42iMSLRmuGfg3z9mi5B5j7VmQVP957" target = "_blank">View Transcript</a>
                         </button>
                        
                       </td>
@@ -150,7 +150,7 @@ const DashboardTable = () => {
                             console.log("Viewing Recording");
                           }}
                         >
-                          < a href ="https://gateway.lighthouse.storage/ipfs/QmTeCggQEvLcjuukKd7Hepx3SR61dCDLw3GH5EvWDb5JJD" target = "_blank">
+                          < a href ="https://gateway.lighthouse.storage/ipfs/QmVQpFw6a7fmy1FjJQSkDA4hgbU8ncYssRci1SGsJ3zWed" target = "_blank">
                           View Recording
                           </a>
                         </button>
