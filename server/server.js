@@ -1,4 +1,5 @@
-require("dotenv").config();
+// require("dotenv").config();
+require ('custom-env').env('local')
 const morgan = require("morgan");
 
 const Code = require("./models/code.model");
@@ -13,6 +14,8 @@ const { notFound, errorHandler } = require("./middleware/error.middleware");
 // connect to the mongoDB collection
 const connectDB = require("./config/db");
 connectDB();
+console.log(process.env.APP_ENV)
+console.log(process.env.OXKID_FRONTEND_SERVER)
 
 // IO server
 const io = require("socket.io")(process.env.IO_PORT, {

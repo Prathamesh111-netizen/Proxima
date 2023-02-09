@@ -1,5 +1,4 @@
 const File = require("../models/file.model");
-require("dotenv").config();
 const multer = require("multer");
 const lighthouse = require("@lighthouse-web3/sdk");
 const fs = require("fs");
