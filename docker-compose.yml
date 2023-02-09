@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  server0xkid:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: server0xkid
+    container_name: server0xkid
+    command: npm start
+    volumes:
+      - ./server0xkid/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - network0xkid
+  client0xkid:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: client0xkid
+    container_name: client0xkid
+    command: npm run dev
+    volumes:
+      - ./client0xkid/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - server0xkid
+    ports:
+      - "5173:5173"
+    networks:
+      - network0xkid
+
+networks:
+    network0xkid:
+        driver: bridge
+
+volumes:
+    data-volume:
+    node_modules:
+    web-root:
+      driver: local
