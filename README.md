@@ -70,5 +70,5 @@ This software uses the following open source packages:
 
 > GitHub [@PrathameshPawar](https://github.com/Prathamesh111-netizen) &nbsp;&middot;&nbsp;
 > GitHub [@karanShah](https://github.com/Karan-Shah-2513) &nbsp;&middot;&nbsp;
-
+> GitHub [@HarshPatil](https://github.com/HARSHHHULK) &nbsp;&middot;&nbsp;
 
