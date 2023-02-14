@@ -8,7 +8,11 @@
 
 <h4 align="center">Collaborative Meetings : Streamlining Communication and Productivity  </h4>
 
-
+<h1 align="center">
+  <br>
+  <a href="https://ethglobal.com/showcase/proxima-z0rpt"><img src="https://user-images.githubusercontent.com/79742694/218778485-dba57a39-e524-4196-9a3a-a3dbd1fbeae9.png" alt="Markdownify" width="200"></a>
+  <br>
+</h1>
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
@@ -19,7 +23,7 @@
 
  <h1 align="center">
   <br>
-  <a href="https://client0xkid-prathamesh111-netizen.cloud.okteto.net/"><img src="https://user-images.githubusercontent.com/79742694/217814065-7cffdf94-160e-459d-91ff-8fcc657a13db.png" alt="Markdownify" width="800"></a>
+  <a href="https://client0xkid-prathamesh111-netizen.cloud.okteto.net/"><img src="https://user-images.githubusercontent.com/79742694/217814065-7cffdf94-160e-459d-91ff-8fcc657a13db.png" alt="Markdownify"></a>
   <br>
 </h1>
 
