@@ -17,4 +17,5 @@ COPY . .
 
 EXPOSE 5173
 
+# start app
 CMD ["npm","run", "dev"]

@@ -20,6 +20,7 @@ const uploadFile = async (req, res, next) => {
   try {
     const { meetingId } = req.params;
     const { type } = req.body;
+    console.log("inside file controller", type, meetingId)
 
     if (type === "code") {
       const { code } = req.body;
@@ -57,7 +58,7 @@ const uploadFile = async (req, res, next) => {
       });
 
       const response = await lighthouse.upload(
-        filepath,
+        whiteboard,
         process.env.LIGHTHOUSE_KEY
       );
 

@@ -31,6 +31,7 @@ const Meeting = () => {
   const huddleClient = getHuddleClient(import.meta.env.VITE_HUDDLE_KEY);
   const roomState = useHuddleStore((state) => state.roomState);
   const peersKeys = useHuddleStore((state) => Object.keys(state.peers));
+  const [isLoggedin, setIsLoggedin] = useState(false);
 
   useEffect(() => {
     setTimeout(async () => {

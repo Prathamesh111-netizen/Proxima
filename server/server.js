@@ -1,5 +1,5 @@
-// require("dotenv").config();
-require ('custom-env').env('local')
+require("dotenv").config();
+// require ('custom-env').env('local')
 const morgan = require("morgan");
 
 const Code = require("./models/code.model");
@@ -14,8 +14,6 @@ const { notFound, errorHandler } = require("./middleware/error.middleware");
 // connect to the mongoDB collection
 const connectDB = require("./config/db");
 connectDB();
-console.log(process.env.APP_ENV)
-console.log(process.env.OXKID_FRONTEND_SERVER)
 
 // IO server
 const io = require("socket.io")(process.env.IO_PORT, {
@@ -66,6 +64,9 @@ io.on("connection", (socket) => {
   });
 });
 
+
+
+
 async function findOrCreateDocument(id) {
   if (id == null) return;
 
@@ -110,9 +111,10 @@ app.use("/api/file", fileRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(3001, () => {
-  console.log(`listening on *:3001`);
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(`listening on *:${process.env.SERVER_PORT}}`);
 });
+
 
 // const convertAudioToText = async (audioUrl) => {
 //   var data = JSON.stringify({
@@ -139,4 +141,3 @@ app.listen(3001, () => {
 //     });
 // };
 // convertAudioToText("https://bit.ly/3yxKEIY")
-

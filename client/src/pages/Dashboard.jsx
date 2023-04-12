@@ -6,7 +6,6 @@ import DashboardTable from "../components/DashboardTable/DashboardTable";
 export default function Dashboard() {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [myMeetings, setMyMeetings] = useState([]);
- 
 
   useEffect(() => {
     if (
@@ -18,6 +17,8 @@ export default function Dashboard() {
       setIsLoggedin(false);
     }
   }, []);
+
+ 
 
 
   return (
