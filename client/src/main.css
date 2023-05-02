@@ -3,7 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body{
+html,
+body {
   font-family: "Roboto Mono", monospace;
   height: 100vh;
 }
@@ -21,7 +22,7 @@ html, body{
   -webkit-text-size-adjust: 100%;
 }
 
- /*
+/*
 body {
   margin: 0;
   display: flex;
@@ -65,4 +66,3 @@ body {
 .color.blue { background-color: blue; }
 .color.yellow { background-color: yellow; }
  */
-

@@ -1,21 +1,26 @@
 # Dockerfile for React client
 
 # Build react client
-FROM node:16.14.0
+FROM node:17-alpine as build
 
 # Working directory be app
-WORKDIR /usr/src/app
+WORKDIR /client
 
-COPY package*.json ./
+COPY package*.json .
 
 ###  Installing dependencies
-
-RUN npm install --silent
+RUN npm install
 
 # copy local files to app folder
-COPY . .
+COPY . /client/
+
+# Build react app
+RUN npm run build
+
+# Install serve to run the application
+RUN npm install -g serve
 
 EXPOSE 5173
 
 # start app
-CMD ["npm","run", "dev"]
+CMD ["serve", "-s", "dist", "-l", "5173"]
