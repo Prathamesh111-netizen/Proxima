@@ -14,8 +14,6 @@ services:
     ports:
       - "3000:3000"
       - "3001:3001"
-    environment:
-      - NODE_ENV=development
     networks:
       - network0xkid
   client0xkid:
@@ -24,7 +22,6 @@ services:
       dockerfile: Dockerfile
     image: client0xkid
     container_name: client0xkid
-    command: npm run dev
     volumes:
       - ./client0xkid/:/usr/app
       - /usr/app/node_modules
@@ -36,11 +33,11 @@ services:
       - network0xkid
 
 networks:
-    network0xkid:
-        driver: bridge
+  network0xkid:
+    driver: bridge
 
 volumes:
-    data-volume:
-    node_modules:
-    web-root:
-      driver: local
+  data-volume:
+  node_modules:
+  web-root:
+    driver: local
