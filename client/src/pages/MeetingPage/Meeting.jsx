@@ -16,8 +16,8 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useHuddle01 } from "@huddle01/react";
 import Navbar from "../../components/Navbar";
-import { useLobby, useAudio, useVideo, usePeers  } from "@huddle01/react/hooks";
-import { Video, Audio } from '@huddle01/react/components'
+import { useLobby, useAudio, useVideo, usePeers } from "@huddle01/react/hooks";
+import { Video, Audio } from "@huddle01/react/components";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -62,23 +62,7 @@ const Meeting = () => {
     <>
       <div className="MeetingPage">
         <div className="MeetingPageFullPage">
-          {/* Mic */}
-          {/* <button
-            disabled={!fetchAudioStream.isCallable}
-            onClick={fetchAudioStream}
-          >
-            FETCH_AUDIO_STREAM
-          </button> */}
-
-          {/* Webcam */}
-          {/* <button
-            disabled={!fetchVideoStream.isCallable}
-            onClick={fetchVideoStream}
-          >
-            FETCH_VIDEO_STREAM
-          </button> */}
-
-          {/* {loading && <LoadingScreen />} */}
+          {loading && <LoadingScreen />}
           {!loading && (
             <div className="MeetingPageComponent">
               <div>
@@ -89,6 +73,7 @@ const Meeting = () => {
                         <MeetingTabs
                           documentId={meetingId}
                           meetingId={meetingId}
+                          peerIds={peersKeys}
                           className="Meetingtabscomponent"
                         />
                       </Item>
@@ -114,7 +99,6 @@ const Meeting = () => {
                               debug
                             />
                           ))}
-
                           {peerIds.map((peerId) => (
                             <Audio
                               key={peer.peerId}

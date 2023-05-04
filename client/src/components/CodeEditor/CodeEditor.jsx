@@ -149,6 +149,7 @@ export default function CodeEditor(props) {
     const body = {
       code: code,
       input: input,
+      language: selectedLang,
     };
     await axios.post(import.meta.env.VITE_COMPILER_PATH, body).then((res) => {
       const { data } = res;
@@ -217,22 +218,22 @@ export default function CodeEditor(props) {
             className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <button onClick={()=>langOnClick("cpp17")}>CPP17</button>
+              <button onClick={() => langOnClick("cpp17")}>CPP17</button>
             </li>
             <li>
-              <button onClick={()=>langOnClick("pyth3")}>PYTH 3</button>
+              <button onClick={() => langOnClick("python3")}>PYTH 3</button>
             </li>
             <li>
-              <button onClick={()=>langOnClick("c")}>C</button>
+              <button onClick={() => langOnClick("c")}>C</button>
             </li>
             <li>
-              <button onClick={()=>langOnClick("java")}>JAVA</button>
+              <button onClick={() => langOnClick("java")}>JAVA</button>
             </li>
             <li>
-              <button onClick={()=>langOnClick("js")}>JS</button>
+              <button onClick={() => langOnClick("js")}>JS</button>
             </li>
             <li>
-              <button onClick={()=>langOnClick("sql")}>SQL</button>
+              <button onClick={() => langOnClick("sql")}>SQL</button>
             </li>
           </ul>
         </div>

@@ -8,7 +8,7 @@ import { styled } from "@mui/material/styles";
 import CodeEditor from "../CodeEditor/CodeEditor";
 import WhiteBoardContainer from "../Whiteboard/WhiteBoardContainer";
 import Files from "../Files/Files";
-
+import Participants from "../Participants/Participants";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -91,7 +91,7 @@ export default function BasicTabs(props) {
           <AntTab label="White Board" />
           {/* <AntTab label="Share Screen" /> */}
           <AntTab label="Files" />
-          <AntTab label="Chat" />
+          <AntTab label="All participants" />
         </AntTabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -107,7 +107,7 @@ export default function BasicTabs(props) {
         <Files meetingId={props.meetingId} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Chat
+        <Participants peerIds={props.peerIds} />
       </TabPanel>
     </Box>
   );

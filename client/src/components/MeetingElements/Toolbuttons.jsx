@@ -107,12 +107,15 @@ export default function Toolbuttons(props) {
         setBlob(recorderRef.current.getBlob());
       });
       console.log(blob);
-    invokeSaveAsDialog(blob);
+      invokeSaveAsDialog(blob);
       axios
-        .post(`${import.meta.env.VITE_EXPRESS_SERVER}/file/${props.meetingId}`, {
-          file: blob,
-          type : "meetingRecording"
-        })
+        .post(
+          `${import.meta.env.VITE_EXPRESS_SERVER}/file/${props.meetingId}`,
+          {
+            file: blob,
+            type: "meetingRecording",
+          }
+        )
         .then((res) => {
           console.log(res);
         })
@@ -136,7 +139,6 @@ export default function Toolbuttons(props) {
       recorderRef.current = new RecordRTC(mediaStream, { type: "video" });
       recorderRef.current.startRecording();
     }
-    
   };
 
   return (
