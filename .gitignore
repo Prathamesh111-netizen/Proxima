@@ -3,3 +3,4 @@
 **/.env.local
 server/.env
 client/.env
+docker-compose.yml.bak
