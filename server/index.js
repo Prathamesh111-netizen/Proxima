@@ -93,15 +93,16 @@ const cors = require("cors");
 const app = express();
 
 app.use(express.json({ limit: "5mb" }));
-app.use(
-  cors({
-    credentials: true,
-    origin: process.env.OXKID_FRONTEND_SERVER,
-    transports: ["websocket", "polling"],
-    methods: ["GET", "POST"],
-    allowEIO3: true,
-  })
-);
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: process.env.OXKID_FRONTEND_SERVER,
+//     transports: ["websocket", "polling"],
+//     methods: ["GET", "POST"],
+//     allowEIO3: true,
+//   })
+// );
+app.use(cors());
 
 app.use(morgan("dev"));
 app.use("/api/compile", compileRoutes);
