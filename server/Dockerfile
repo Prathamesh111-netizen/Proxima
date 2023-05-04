@@ -13,8 +13,4 @@ COPY . /server/
 
 EXPOSE 3000-3001
 
-<<<<<<< HEAD
-CMD [ "npx", "nodemon" ]
-=======
 CMD [ "npm", "run", "dev" ]
->>>>>>> 92bfda718d590041a04c9d39d605c8344d268ee5

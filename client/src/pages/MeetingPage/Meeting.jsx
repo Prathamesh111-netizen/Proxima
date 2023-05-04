@@ -63,20 +63,20 @@ const Meeting = () => {
       <div className="MeetingPage">
         <div className="MeetingPageFullPage">
           {/* Mic */}
-          <button
+          {/* <button
             disabled={!fetchAudioStream.isCallable}
             onClick={fetchAudioStream}
           >
             FETCH_AUDIO_STREAM
-          </button>
+          </button> */}
 
           {/* Webcam */}
-          <button
+          {/* <button
             disabled={!fetchVideoStream.isCallable}
             onClick={fetchVideoStream}
           >
             FETCH_VIDEO_STREAM
-          </button>
+          </button> */}
 
           {/* {loading && <LoadingScreen />} */}
           {!loading && (
