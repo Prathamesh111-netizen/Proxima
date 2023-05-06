@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getHuddleClient } from "@huddle01/huddle01-client";
 import { useHuddleStore } from "@huddle01/huddle01-client/store";
-import { useHuddle01 } from "@huddle01/react";
-
 import LoadingScreen from "../../components/loader";
 import MeVideoElem from "../../components/MeetingElements/MeVideoElem";
 import PeerVideoAudioElem from "../../components/MeetingElements/PeerVideoAudioElem";
