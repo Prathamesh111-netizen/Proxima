@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getHuddleClient } from "@huddle01/huddle01-client";
 import { useHuddleStore } from "@huddle01/huddle01-client/store";
+import { useHuddle01 } from "@huddle01/react";
 
 import LoadingScreen from "../../components/loader";
 import MeVideoElem from "../../components/MeetingElements/MeVideoElem";
@@ -40,6 +41,7 @@ const Meeting = () => {
 
   // const { initialize, isInitialized } = useHuddle01();
   useEffect(() => {
+    initialize(import.meta.env.VITE_HUDDLE_PROJECTID);
     setTimeout(async () => {
       await huddleClient.join(meetingId, {
         address: "0x15900c698ee356E6976e5645394F027F0704c8Eb",
@@ -60,63 +62,49 @@ const Meeting = () => {
   }, []);
   return (
     <>
-      <div className="MeetingPage">
-        <div className="MeetingPageFullPage">
-          {loading && <LoadingScreen />}
-          {!loading && (
-            <div className="MeetingPageComponent">
-              <div>
-                <Box className="MeetingBoxComponent">
-                  <Grid container spacing={2}>
-                    <Grid xs={8} className="MeetingGridComponent">
-                      <Item>
-                        <MeetingTabs
-                          documentId={meetingId}
-                          meetingId={meetingId}
-                          peerIds={peersKeys}
-                          className="Meetingtabscomponent"
-                        />
-                      </Item>
+      {isInitialized && (
+        <div className="MeetingPage">
+          <div className="MeetingPageFullPage">
+            {/* {loading && <LoadingScreen />} */}
+            {!loading && (
+              <div className="MeetingPageComponent">
+                <div>
+                  <Box className="MeetingBoxComponent">
+                    <Grid container spacing={2}>
+                      <Grid xs={8} className="MeetingGridComponent">
+                        <Item>
+                          <MeetingTabs
+                            documentId={meetingId}
+                            meetingId={meetingId}
+                            className="Meetingtabscomponent"
+                          />
+                        </Item>
+                      </Grid>
+                      <Grid xs={4} className="VideoGridComponent">
+                        <Item>
+                          <MeVideoElem />
+                          <br></br>
+                          <br></br>
+                          <div className="peers-grid">
+                            {peersKeys.map((key) => (
+                              <PeerVideoAudioElem
+                                key={`peerId-${key}`}
+                                peerIdAtIndex={key}
+                              />
+                            ))}
+                          </div>
+                        </Item>
+                      </Grid>
                     </Grid>
-                    <Grid xs={4} className="VideoGridComponent">
-                      <Item>
-                        <MeVideoElem />
-                        <br></br>
-                        <br></br>
-                        <div className="peers-grid">
-                          {peersKeys.map((key) => (
-                            <PeerVideoAudioElem
-                              key={`peerId-${key}`}
-                              peerIdAtIndex={key}
-                            />
-                          ))}
-                        </div>
-                        <div className="grid grid-cols-4">
-                          {peerIds.map((peerId) => (
-                            <Video
-                              key={peer.peerId}
-                              peerId={peer.peerId}
-                              debug
-                            />
-                          ))}
-                          {peerIds.map((peerId) => (
-                            <Audio
-                              key={peer.peerId}
-                              peerId={peer.peerId}
-                              debug
-                            />
-                          ))}
-                        </div>
-                      </Item>
-                    </Grid>
-                  </Grid>
-                </Box>
-                <Toolbuttons meetingId={meetingId} />
+                  </Box>
+                  <Toolbuttons meetingId={meetingId} />
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+      )}
+      {!isInitialized && <LoadingScreen />}
     </>
   );
 };
