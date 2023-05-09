@@ -127,21 +127,19 @@ const DashboardTable = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <a
-                          href={`${import.meta.env.VITE_FRONTEND_URL}/meeting/${
-                            meeting.meetingId
-                          }`}
-                        >
+                        <a href={`/meeting/${meeting.meetingId}`}>
                           {meeting.meetingId}
                         </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        <button
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        >
-                          <a href="https://gateway.lighthouse.storage/ipfs/QmZsepQLX3q5huAS42iMSLRmuGfg3z9mi5B5j7VmQVP957" target = "_blank">View Transcript</a>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                          <a
+                            href="https://gateway.lighthouse.storage/ipfs/QmZsepQLX3q5huAS42iMSLRmuGfg3z9mi5B5j7VmQVP957"
+                            target="_blank"
+                          >
+                            View Transcript
+                          </a>
                         </button>
-                       
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         <button
@@ -150,8 +148,11 @@ const DashboardTable = () => {
                             console.log("Viewing Recording");
                           }}
                         >
-                          < a href ="https://gateway.lighthouse.storage/ipfs/QmVQpFw6a7fmy1FjJQSkDA4hgbU8ncYssRci1SGsJ3zWed" target = "_blank">
-                          View Recording
+                          <a
+                            href="https://gateway.lighthouse.storage/ipfs/QmVQpFw6a7fmy1FjJQSkDA4hgbU8ncYssRci1SGsJ3zWed"
+                            target="_blank"
+                          >
+                            View Recording
                           </a>
                         </button>
                       </td>
