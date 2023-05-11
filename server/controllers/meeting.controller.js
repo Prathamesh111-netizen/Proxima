@@ -2,6 +2,7 @@ const Meeting = require("../models/meeting.model");
 const Attendence = require("../models/attendence.model");
 const shortid = require("shortid");
 
+
 const getMyMeetings = async (req, res, next) => {
   try {
     const { userWalletAddress } = req.params;

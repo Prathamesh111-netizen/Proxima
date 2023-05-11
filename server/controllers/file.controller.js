@@ -3,6 +3,8 @@ const multer = require("multer");
 const lighthouse = require("@lighthouse-web3/sdk");
 const fs = require("fs");
 
+const {LIGHTHOUSE_KEY} = require('../config.js');
+
 const getFiles = async (req, res, next) => {
   try {
     const { meetingId } = req.params;
@@ -26,7 +28,7 @@ const uploadFile = async (req, res, next) => {
       const { code } = req.body;
       const response = await lighthouse.uploadText(
         code,
-        process.env.LIGHTHOUSE_KEY
+        LIGHTHOUSE_KEY
       );
 
       File.create({
@@ -59,7 +61,7 @@ const uploadFile = async (req, res, next) => {
 
       const response = await lighthouse.upload(
         whiteboard,
-        process.env.LIGHTHOUSE_KEY
+        LIGHTHOUSE_KEY
       );
 
       File.create({
@@ -108,7 +110,7 @@ const uploadFile = async (req, res, next) => {
       } else {
         console.log();
         const path = `uploads/${req.file.filename}`; //Give path to the file
-        const apiKey = process.env.LIGHTHOUSE_KEY; //generate from https://files.lighthouse.storage/ or cli (lighthouse-web3 api-key --new)
+        const apiKey = LIGHTHOUSE_KEY; //generate from https://files.lighthouse.storage/ or cli (lighthouse-web3 api-key --new)
 
         // Both file and folder supported by upload function
         const response = await lighthouse.upload(path, apiKey);

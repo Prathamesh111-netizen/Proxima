@@ -4,22 +4,22 @@ const morgan = require("morgan");
 
 const Code = require("./models/code.model");
 const Canvas = require("./models/canvas.model");
-const axios = require("axios");
 const compileRoutes = require("./routes/compile.routes");
 const meetingRoutes = require("./routes/meeting.routes");
 const fileRoutes = require("./routes/file.routes");
 const { notFound, errorHandler } = require("./middleware/error.middleware");
 
+const {IO_PORT, SERVER_PORT, FRONTEND_SERVER} = require('./config.js')
 
 // connect to the mongoDB collection
 const connectDB = require("./config/db");
 connectDB();
 
 // IO server
-const io = require("socket.io")(process.env.IO_PORT, {
+const io = require("socket.io")(IO_PORT, {
   cors: {
     credentials: true,
-    origin: process.env.OXKID_FRONTEND_SERVER,
+    origin: FRONTEND_SERVER,
     transports: ["websocket", "polling"],
     methods: ["GET", "POST"],
   },
@@ -93,16 +93,15 @@ const cors = require("cors");
 const app = express();
 
 app.use(express.json({ limit: "5mb" }));
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: process.env.OXKID_FRONTEND_SERVER,
-//     transports: ["websocket", "polling"],
-//     methods: ["GET", "POST"],
-//     allowEIO3: true,
-//   })
-// );
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: FRONTEND_SERVER,
+    transports: ["websocket", "polling"],
+    methods: ["GET", "POST"],
+    allowEIO3: true,
+  })
+);
 
 app.use(morgan("dev"));
 app.use("/api/compile", compileRoutes);
@@ -112,8 +111,8 @@ app.use("/api/file", fileRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(process.env.SERVER_PORT, () => {
-  console.log(`listening on *:${process.env.SERVER_PORT}}`);
+app.listen(SERVER_PORT, () => {
+  console.log(`listening on *:${SERVER_PORT}}`);
 });
 
 

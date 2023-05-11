@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
+const { MONGO_URL } = require("./config.js");
 
 const connectDB = () => {
+    console.log(MONGO_URL);
     mongoose.set("strictQuery", false);
     mongoose
-      .connect(process.env.MONGO_URL, {
+      .connect(MONGO_URL, {
         useUnifiedTopology: true,
         useNewUrlParser: true,
       })
