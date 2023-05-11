@@ -7,12 +7,14 @@ const Canvas = require("./models/canvas.model");
 const compileRoutes = require("./routes/compile.routes");
 const meetingRoutes = require("./routes/meeting.routes");
 const fileRoutes = require("./routes/file.routes");
+const transcriptRoutes = require("./routes/transcript.routes");
+
 const { notFound, errorHandler } = require("./middleware/error.middleware");
 
 const {IO_PORT, SERVER_PORT, FRONTEND_SERVER} = require('./config.js')
 
 // connect to the mongoDB collection
-const connectDB = require("./config/db");
+const connectDB = require("./db");
 connectDB();
 
 // IO server
@@ -107,6 +109,7 @@ app.use(morgan("dev"));
 app.use("/api/compile", compileRoutes);
 app.use("/api/meeting", meetingRoutes);
 app.use("/api/file", fileRoutes);
+app.use("/api/transcript", transcriptRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

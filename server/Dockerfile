@@ -13,4 +13,4 @@ COPY . /server/
 
 EXPOSE 3000-3001
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "start" ]

@@ -20,6 +20,7 @@
     "express-async-handler": "^1.2.0",
     "ffmpeg-extract-audio": "^1.0.2",
     "fs": "^0.0.1-security",
+    "html-pdf-node": "^1.0.8",
     "i": "^0.3.7",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.9.0",
