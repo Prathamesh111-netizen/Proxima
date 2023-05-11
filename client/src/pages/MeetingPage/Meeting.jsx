@@ -15,9 +15,12 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useHuddle01 } from "@huddle01/react";
-import Navbar from "../../components/Navbar";
 import { useLobby, useAudio, useVideo, usePeers } from "@huddle01/react/hooks";
 import { Video, Audio } from "@huddle01/react/components";
+
+//deca-org
+import Transcript from "../../components/Transcript/Transcript";
+import ShareScreen from "../../components/ShareScreen/ShareScreen";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -90,6 +93,7 @@ const Meeting = () => {
                               peerIdAtIndex={key}
                             />
                           ))}
+                          
                         </div>
                         <div className="grid grid-cols-4">
                           {peerIds.map((peerId) => (
@@ -111,6 +115,16 @@ const Meeting = () => {
                     </Grid>
                   </Grid>
                 </Box>
+                <Transcript />
+                <button
+                  onClick={() => {
+                    const res = huddleClient.enableShare();
+                    console.log(res);
+                  }}
+                >
+                  Share screen
+                </button>
+
                 <Toolbuttons meetingId={meetingId} />
               </div>
             </div>

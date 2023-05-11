@@ -9,6 +9,9 @@ import CodeEditor from "../CodeEditor/CodeEditor";
 import WhiteBoardContainer from "../Whiteboard/WhiteBoardContainer";
 import Files from "../Files/Files";
 import Participants from "../Participants/Participants";
+import { useHuddleStore } from "@huddle01/huddle01-client/store";
+import ShareScreen from "../ShareScreen/ShareScreen";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -78,6 +81,7 @@ const AntTab = styled((props) => <Tab disableRipple {...props} />)(
 
 export default function BasicTabs(props) {
   const [value, setValue] = React.useState(0);
+  const peersKeys = useHuddleStore((state) => Object.keys(state.peers));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -89,7 +93,7 @@ export default function BasicTabs(props) {
         <AntTabs value={value} onChange={handleChange} aria-label="ant example">
           <AntTab label="Code Editor" />
           <AntTab label="White Board" />
-          {/* <AntTab label="Share Screen" /> */}
+          <AntTab label="Share Screen" />
           <AntTab label="Files" />
           <AntTab label="All participants" />
         </AntTabs>
@@ -104,9 +108,21 @@ export default function BasicTabs(props) {
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Files meetingId={props.meetingId} />
+        {peersKeys.map((key) => (
+          <div
+            key={`peer-${key}`}
+            style={{ width: "100%" }}
+            className="space-between p-2 m-2 bg-base-300 h-fit rounded-lg mx-auto "
+          >
+            <br />
+            <ShareScreen key={`peerId-${key}`} peerId={key} />
+          </div>
+        ))}
       </TabPanel>
       <TabPanel value={value} index={3}>
+        <Files meetingId={props.meetingId} />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
         <Participants peerIds={props.peerIds} />
       </TabPanel>
     </Box>
