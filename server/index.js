@@ -106,6 +106,9 @@ app.use(
 );
 
 app.use(morgan("dev"));
+app.get("/", (req, res) => {
+  res.send("Health Check " + new Date().toISOString().slice(0, 19).replace('T', ' '));
+});
 app.use("/api/compile", compileRoutes);
 app.use("/api/meeting", meetingRoutes);
 app.use("/api/file", fileRoutes);
