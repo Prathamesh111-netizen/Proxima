@@ -8,7 +8,6 @@ export default function loader() {
       radius={5}
       color="#000"
       ariaLabel="ball-triangle-loading"
-      wrapperClass={{}}
       wrapperStyle=""
       visible={true}
     />

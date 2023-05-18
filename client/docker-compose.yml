@@ -1,21 +1,6 @@
 version: '3.7'
 
 services:
-  # server0xkid:
-  #   build:
-  #     context: ./server
-  #     dockerfile: Dockerfile
-  #   image: server0xkid
-  #   container_name: server0xkid
-  #   command: npm start
-  #   volumes:
-  #     - ./server0xkid/:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   ports:
-  #     - "3000:3000"
-  #     - "3001:3001"
-  #   networks:
-  #     - network0xkid
   client0xkid:
     build:
       context: .

@@ -110,7 +110,7 @@ const DashboardTable = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           <a
-                            href={`http://localhost:5173/meeting/${meeting.meetingId}`}
+                            href={`/meeting/${meeting.meetingId}`}
                             target="_blank"
                           >
                             Join Meeting

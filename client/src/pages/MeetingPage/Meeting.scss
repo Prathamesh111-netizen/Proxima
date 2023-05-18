@@ -1,5 +1,5 @@
 .MeetingPage {
-
+  
   .MeetingBoxComponent {
     min-height: 90vh;
     padding: 1rem;
@@ -8,6 +8,12 @@
       rgba(84, 58, 183, 1) 0%,
       rgba(0, 172, 193, 1) 100%
     );
+  }
+  .loader{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   .MeetingPageComponent {
     background-color: black;
@@ -24,5 +30,14 @@
   }
   .VideoGridComponent {
     min-height: 80vh;
+  }
+  .meetactions{
+    width: 100%;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(35 41 53 / 20%);
+    color : white;
   }
 }

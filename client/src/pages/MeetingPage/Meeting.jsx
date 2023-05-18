@@ -20,7 +20,6 @@ import { Video, Audio } from "@huddle01/react/components";
 
 //deca-org
 import Transcript from "../../components/Transcript/Transcript";
-import ShareScreen from "../../components/ShareScreen/ShareScreen";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -65,7 +64,11 @@ const Meeting = () => {
     <>
       <div className="MeetingPage">
         <div className="MeetingPageFullPage">
-          {loading && <LoadingScreen />}
+          {loading && (
+            <div className="loader">
+              <LoadingScreen />
+            </div>
+          )}
           {!loading && (
             <div className="MeetingPageComponent">
               <div>
@@ -93,7 +96,6 @@ const Meeting = () => {
                               peerIdAtIndex={key}
                             />
                           ))}
-                          
                         </div>
                         <div className="grid grid-cols-4">
                           {peerIds.map((peerId) => (
@@ -115,17 +117,10 @@ const Meeting = () => {
                     </Grid>
                   </Grid>
                 </Box>
-                <Transcript />
-                <button
-                  onClick={() => {
-                    const res = huddleClient.enableShare();
-                    console.log(res);
-                  }}
-                >
-                  Share screen
-                </button>
-
-                <Toolbuttons meetingId={meetingId} />
+                <div className="meetactions">
+                  <Transcript />
+                  <Toolbuttons meetingId={meetingId} />
+                </div>
               </div>
             </div>
           )}

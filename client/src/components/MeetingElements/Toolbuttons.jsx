@@ -19,9 +19,10 @@ import CallEnd from "@mui/icons-material/CallEnd";
 import { useReactMediaRecorder } from "react-media-recorder";
 import RecordIcon from "@mui/icons-material/FiberManualRecord";
 import Fab from "@mui/material/Fab";
+import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
 import axios from "axios";
 import RecordRTC, { invokeSaveAsDialog } from "recordrtc";
-
+import Transcript from "../Transcript/Transcript";
 const Modalstyle = {
   position: "absolute",
   top: "50%",
@@ -71,15 +72,7 @@ export default function Toolbuttons(props) {
     }
   };
 
-  const toggleScreenShare = () => {
-    if (screenShareStatus) {
-      //   huddleClient.stopScreenShare();
-      setScreenShareStatus(false);
-    } else {
-      //   huddleClient.startScreenShare();
-      setScreenShareStatus(true);
-    }
-  };
+   
 
   const toggleChat = () => {
     if (chatStatus) {
@@ -211,17 +204,21 @@ export default function Toolbuttons(props) {
             <MicOffIcon />
           </IconButton>
         )}
-        {/* <IconButton
+        <IconButton
           aria-label={
             screenShareStatus ? "Stop Screen Share" : "Share your Screen"
           }
           className="IconButtonsComponent"
           size="small"
-          onClick={toggleScreenShare}
+          onClick={() => {
+            const res = huddleClient.enableShare();
+            console.log(res);
+          }}
           sx={{ color: "white" }}
         >
           <ScreenShareIcon />
-        </IconButton> */}
+        </IconButton>
+        {/* <Transcript /> */}
         <IconButton
           aria-label={chatStatus ? "Hide Chat" : "Show Chat"}
           size="small"
@@ -265,6 +262,7 @@ export default function Toolbuttons(props) {
         >
           <CallEnd />
         </IconButton>
+        
       </div>
       {/* <video src={mediaBlobUrl} controls autoPlay loop /> */}
     </div>

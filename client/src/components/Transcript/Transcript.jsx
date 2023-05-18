@@ -1,12 +1,15 @@
-import 'regenerator-runtime/runtime';
+import "regenerator-runtime/runtime";
 import React, { useEffect, useRef, useState } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import axios from "axios";
+import IconButton from "@mui/material/IconButton";
+import ClosedCaptionIcon from "@mui/icons-material/ClosedCaption";
 
 const Transcript = () => {
-  const speechRecognitionSupported = SpeechRecognition.browserSupportsSpeechRecognition();
+  const speechRecognitionSupported =
+    SpeechRecognition.browserSupportsSpeechRecognition();
 
   const [isSupported, setIsSupported] = useState(null);
   const { transcript, resetTranscript } = useSpeechRecognition();
@@ -27,13 +30,18 @@ const Transcript = () => {
   };
 
   const stopListening = () => {
+    resetTranscript();
     setListening(false);
     SpeechRecognition.stopListening();
+    textBodyRef.current.innerText = "";
   };
 
   const resetText = () => {
     stopListening();
     resetTranscript();
+    setListening(false);
+    resetText();
+    SpeechRecognition.stopListening();
     textBodyRef.current.innerText = "";
   };
 
@@ -62,7 +70,8 @@ const Transcript = () => {
           responseType: "blob",
         };
 
-        const res = await axios.post(`${import.meta.env.VITE_BACKEND_SERVER}/transcript`,
+        const res = await axios.post(
+          `${import.meta.env.VITE_BACKEND_SERVER}/transcript`,
           {
             text: textBodyRef.current.innerText,
           },
@@ -109,8 +118,16 @@ const Transcript = () => {
   return (
     <>
       <section>
+        <div
+          className="mx-auto text-center transcript"
+          contentEditable
+          ref={textBodyRef}
+          suppressContentEditableWarning={true}
+        >
+          {transcript}
+        </div>
         <div className="flex w-fit mx-auto justify-apart my-5">
-          <h1 className="text-lg p-4">Meeting transcript</h1>
+          {/* <h1 className="text-lg p-4">Meeting transcript</h1>
           <button
             type="button"
             onClick={startListening}
@@ -128,24 +145,34 @@ const Transcript = () => {
             className="btn mx-4"
           >
             Stop
-          </button>
+          </button>  */}
+          <IconButton
+            aria-label={
+              listening ? "Stop Closed Captioning" : "Start Closed Captioning"
+            }
+            label = {
+              listening ? "Stop Closed Captioning" : "Start Closed Captioning"
+            }
+            className="IconButtonsComponent"
+            size="small"
+            onClick={() => {
+              listening ? stopListening() : startListening();
+            }}
+            sx={{ color: "white" }}
+          >
+            <ClosedCaptionIcon />
+          </IconButton>
         </div>
-        <div
-          className="mx-auto text-center"
-          contentEditable
-          ref={textBodyRef}
-          suppressContentEditableWarning={true}
-        >
-          {transcript}
-        </div>
-        <div className="mx-auto text-center">
+
+        {/* <div className="mx-auto text-center">
           {response.success && (
             <i className="text-success ">{response.message}</i>
           )}
           {response.error && <i className="text-error ">{response.message}</i>}
-        </div>
-        <div className="mx-auto text-center">
-          <button
+        </div> */}
+
+        {/* <div className="mx-auto text-center"> */}
+        {/* <button
             type="button"
             onClick={resetText}
             className="btn mx-4"
@@ -170,7 +197,7 @@ const Transcript = () => {
           >
             Copy to clipboard
           </button>
-        </div>
+        </div> */}
       </section>
     </>
   );
