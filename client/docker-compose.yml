@@ -1,12 +1,12 @@
 version: '3.7'
 
 services:
-  client0xkid:
+  proxima:
     build:
       context: .
       dockerfile: Dockerfile
-    image: client0xkid
-    container_name: client0xkid
+    image: proxima
+    container_name: proxima
     volumes:
       - ./client0xkid/:/usr/app
       - /usr/app/node_modules

@@ -1,13 +1,12 @@
 version: '3.7'
 
 services:
-  server0xkid:
+  proxima-server:
     build:
       context: .
       dockerfile: Dockerfile
-    image: server0xkid
-    container_name: server0xkid
-    # command: npm start
+    image: proxima-server
+    container_name: proxima-server
     volumes:
       - ./server0xkid/:/usr/src/app
       - /usr/src/app/node_modules

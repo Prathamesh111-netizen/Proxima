@@ -1,7 +1,7 @@
 require("dotenv").config();
 // require ('custom-env').env('local')
 const morgan = require("morgan");
-
+const path = require("path");
 const Code = require("./models/code.model");
 const Canvas = require("./models/canvas.model");
 const compileRoutes = require("./routes/compile.routes");
@@ -106,19 +106,23 @@ app.use(
 );
 
 app.use(morgan("dev"));
-app.get("/", (req, res) => {
-  res.send("Health Check " + new Date().toISOString().slice(0, 19).replace('T', ' '));
-});
+
 app.use("/api/compile", compileRoutes);
 app.use("/api/meeting", meetingRoutes);
 app.use("/api/file", fileRoutes);
 app.use("/api/transcript", transcriptRoutes);
 
+// app.use(express.static(path.join(__dirname, 'dist')));
+
+// app.get('*', function (req, res) {
+//     res.sendFile(path.join(__dirname , 'dist', 'index.html'));
+// }); 
+
 app.use(notFound);
 app.use(errorHandler);
 
 app.listen(SERVER_PORT, () => {
-  console.log(`listening on *:${SERVER_PORT}}`);
+  console.log(`http://localhost:${SERVER_PORT}`);
 });
 
 

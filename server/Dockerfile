@@ -6,7 +6,7 @@ WORKDIR /server
 
 # Install app dependencies
 COPY package*.json /server
-RUN npm install
+RUN npm ci --only=production
 
 # Bundle app source
 COPY . /server/

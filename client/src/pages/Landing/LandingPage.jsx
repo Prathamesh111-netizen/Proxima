@@ -162,7 +162,7 @@ const LandingPage = () => {
                   Total privacy
                 </h4>
                 <p className="text-sm mb-0">
-                  Data stays between you and your participants. MiroTalk SFU
+                  Data stays between you and your participants. Proxima
                   doesn't collect or share personal information.
                 </p>
               </div>
