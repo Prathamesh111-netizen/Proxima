@@ -112,11 +112,6 @@ app.use("/api/meeting", meetingRoutes);
 app.use("/api/file", fileRoutes);
 app.use("/api/transcript", transcriptRoutes);
 
-// app.use(express.static(path.join(__dirname, 'dist')));
-
-// app.get('*', function (req, res) {
-//     res.sendFile(path.join(__dirname , 'dist', 'index.html'));
-// }); 
 
 app.use(notFound);
 app.use(errorHandler);
@@ -125,29 +120,3 @@ app.listen(SERVER_PORT, () => {
   console.log(`http://localhost:${SERVER_PORT}`);
 });
 
-
-// const convertAudioToText = async (audioUrl) => {
-//   var data = JSON.stringify({
-//     audio_url: audioUrl,
-//   });
-
-//   var config = {
-//     method: "post",
-//     maxBodyLength: Infinity,
-//     url: "https://api.assemblyai.com/v2/transcript",
-//     headers: {
-//       Authorization: "7a6cc2fea38a4815b24b75b64c1ccaee",
-//       "Content-Type": "application/json",
-//     },
-//     data: data,
-//   };
-
-//   axios(config)
-//     .then(function (response) {
-//       console.log(JSON.stringify(response.data));
-//     })
-//     .catch(function (error) {
-//       console.log(error);
-//     });
-// };
-// convertAudioToText("https://bit.ly/3yxKEIY")
