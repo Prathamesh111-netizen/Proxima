@@ -74,7 +74,7 @@ const Meeting = () => {
               <div>
                 <Box className="MeetingBoxComponent">
                   <Grid container spacing={2}>
-                    <Grid xs={8} className="MeetingGridComponent">
+                    <Grid xs={9} className="MeetingGridComponent">
                       <Item>
                         <MeetingTabs
                           documentId={meetingId}
@@ -84,7 +84,7 @@ const Meeting = () => {
                         />
                       </Item>
                     </Grid>
-                    <Grid xs={4} className="VideoGridComponent">
+                    <Grid xs={3} className="VideoGridComponent">
                       <Item>
                         <MeVideoElem />
                         <br></br>
