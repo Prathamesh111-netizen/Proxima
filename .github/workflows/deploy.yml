@@ -1,52 +1,38 @@
-name: Build And Deploy
-
+name: Deployment workflow
+  
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  push: 
+    branches: 
+      - main
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-  
   deploy:
-    needs: build
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+          node-version: '18'
+      - run: |
+          curl https://get.okteto.com -sSfL | sh
+          okteto context use https://cloud.okteto.com --token ${{ secrets.OKTETO_TOKEN }}
+          
+          cd client
+          npm install --force
+          echo "${{ secrets.CLIENT_ENV_FILE }}" > .env
+          okteto deploy --build
+          
+          cd ../server
+          ls
+          echo "${{ secrets.SERVER_ENV_FILE }}" > .env
+          okteto deploy --build 
+          
+        
+    
+          
+          
+    
+  
+  
