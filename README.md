@@ -2,7 +2,7 @@
 
 <h1 align="center">
   <br>
-  <a href="https://client0xkid-prathamesh111-netizen.cloud.okteto.net/"><img src="/client/public/proxima-logo.png" alt="Markdownify" width="200"></a>
+  <a href="[https://client0xkid-prathamesh111-netizen.cloud.okteto.net/](https://proxima-prathamesh111-netizen.cloud.okteto.net/)"><img src="/client/public/proxima-logo.png" alt="Markdownify" width="200"></a>
   <br>
 </h1>
 
@@ -23,7 +23,7 @@
 
  <h1 align="center">
   <br>
-  <a href="https://client0xkid-prathamesh111-netizen.cloud.okteto.net/"><img src="https://user-images.githubusercontent.com/79742694/217814065-7cffdf94-160e-459d-91ff-8fcc657a13db.png" alt="Markdownify"></a>
+  <a href="[https://client0xkid-prathamesh111-netizen.cloud.okteto.net/](https://proxima-prathamesh111-netizen.cloud.okteto.net/)"><img src="https://user-images.githubusercontent.com/79742694/217814065-7cffdf94-160e-459d-91ff-8fcc657a13db.png" alt="Markdownify"></a>
   <br>
 </h1>
 
