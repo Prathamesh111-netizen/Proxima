@@ -1,4 +1,11 @@
 
+## Proxima
+
+* Proxima is a Collaborative Decentralized Video Meeting Website designed exclusively for developers to enhance their virtual collaboration and communication efforts.
+* The platform provides real-time audio/video conferencing, file sharing, and a live code share feature, making it an ideal solution for developers who want to work together on projects.
+* Proxima is built on a decentralized infrastructure powered by blockchain technology, providing users with a transparent and secure environment for collaboration.
+* The decentralized architecture ensures that user data is protected from centralized server attacks, giving developers peace of mind during virtual meetings.
+
 
 ![image7](https://github.com/Prathamesh111-netizen/Proxima/assets/79742694/e92fdd61-9d3f-4a12-bba2-9b809cf70bec)
 ![image4](https://github.com/Prathamesh111-netizen/Proxima/assets/79742694/2c5e450f-2c44-4572-95dd-5bcebf5c0148)
