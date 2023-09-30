@@ -1,18 +1,10 @@
 
 
-<h1 align="center">
-  <br>
-  <a href="[https://client0xkid-prathamesh111-netizen.cloud.okteto.net/](https://proxima-prathamesh111-netizen.cloud.okteto.net/)"><img src="/client/public/proxima-logo.png" alt="Markdownify" width="200"></a>
-  <br>
-</h1>
+![image7](https://github.com/Prathamesh111-netizen/Proxima/assets/79742694/e92fdd61-9d3f-4a12-bba2-9b809cf70bec)
+![image4](https://github.com/Prathamesh111-netizen/Proxima/assets/79742694/2c5e450f-2c44-4572-95dd-5bcebf5c0148)
+![image19](https://github.com/Prathamesh111-netizen/Proxima/assets/79742694/90b6a57f-637c-4064-8ae5-340df4db4f53)
 
-<h4 align="center">Collaborative Meetings : Streamlining Communication and Productivity  </h4>
 
-<h1 align="center">
-  <br>
-  <a href="https://ethglobal.com/showcase/proxima-z0rpt"><img src="https://user-images.githubusercontent.com/79742694/218778485-dba57a39-e524-4196-9a3a-a3dbd1fbeae9.png" alt="Markdownify" width="200"></a>
-  <br>
-</h1>
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
@@ -20,12 +12,6 @@
   <a href="#credits">Credits</a> •
 </p>
 
-
- <h1 align="center">
-  <br>
-  <a href="[https://client0xkid-prathamesh111-netizen.cloud.okteto.net/](https://proxima-prathamesh111-netizen.cloud.okteto.net/)"><img src="https://user-images.githubusercontent.com/79742694/217814065-7cffdf94-160e-459d-91ff-8fcc657a13db.png" alt="Markdownify"></a>
-  <br>
-</h1>
 
 ## Key Features
 
@@ -68,6 +54,20 @@ This software uses the following open source packages:
 
 ---
 
+
+<h1 align="center">
+  <br>
+  <a href="[https://client0xkid-prathamesh111-netizen.cloud.okteto.net/](https://proxima-prathamesh111-netizen.cloud.okteto.net/)"><img src="/client/public/proxima-logo.png" alt="Markdownify" width="200"></a>
+  <br>
+</h1>
+
+<h4 align="center">Collaborative Meetings : Streamlining Communication and Productivity  </h4>
+
+<h1 align="center">
+  <br>
+  <a href="https://ethglobal.com/showcase/proxima-z0rpt"><img src="https://user-images.githubusercontent.com/79742694/218778485-dba57a39-e524-4196-9a3a-a3dbd1fbeae9.png" alt="Markdownify" width="200"></a>
+  <br>
+</h1>
 > GitHub [@PrathameshPawar](https://github.com/Prathamesh111-netizen) &nbsp;&middot;&nbsp;
 > GitHub [@karanShah](https://github.com/Karan-Shah-2513) &nbsp;&middot;&nbsp;
 > GitHub [@HarshPatil](https://github.com/HARSHHHULK) &nbsp;&middot;&nbsp;
